@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<taglib
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
+    version="2.1">
+
+  <display-name>LiveRebel Answers Functions</display-name>
+  <tlib-version>1.0</tlib-version>
+  <short-name>ra</short-name>
+  <uri>http://www.zeroturnaround.com/tags</uri>
+
+  <tag>
+    <description>
+      Returns the name of an authenticated user.
+    </description>
+    <name>authUserName</name>
+    <tag-class>com.zeroturnaround.rebelanswers.mvc.taglib.AuthenticatedUserName</tag-class>
+    <body-content>empty</body-content>
+  </tag>
+
+  <function>
+    <name>sortStringArray</name>
+    <function-class>com.zeroturnaround.rebelanswers.mvc.taglib.Sort</function-class>
+    <function-signature>java.lang.String[] sortStringArray(java.lang.String[])</function-signature>
+  </function>
+
+</taglib>

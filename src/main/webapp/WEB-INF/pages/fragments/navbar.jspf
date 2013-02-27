@@ -1,0 +1,32 @@
+<%@ page import="com.zeroturnaround.rebelanswers.security.Authorities" %>
+<%@ include file="/WEB-INF/pages/fragments/taglibs.jspf" %>
+<div class="navbar">
+  <div class="navbar-inner">
+    <spring:url var="welcomeUrl" value="/welcome.do"/>
+    <a class="brand" href="${welcomeUrl}">Rebel Answers</a>
+
+    <spring:url var="searchUrl" value="/search.do"/>
+
+    <form action="${searchUrl}" method="GET" class="navbar-search pull-left"><input name="q" type="content" class="search-query span6" placeholder="Search"/></form>
+    <ul class="nav pull-right">
+      <sec:authorize ifNotGranted="<%=Authorities.USER%>">
+        <spring:url var="loginUrl" value="/login.do"/>
+        <li><a href="${loginUrl}">Log in</a></li>
+      </sec:authorize>
+      <sec:authorize ifAnyGranted="<%=Authorities.USER%>">
+        <li class="disabled"><a><ra:authUserName/></a></li>
+        <spring:url var="logoutUrl" value="/logout.do"/>
+        <li><a href="${logoutUrl}">Log out</a></li>
+      </sec:authorize>
+    </ul>
+  </div>
+</div>
+
+<ul class="nav nav-tabs">
+  <spring:url var="questionsAllUrl" value="/questions/all.do"/>
+  <li><a href="${questionsAllUrl}">Questions</a></li>
+  <spring:url var="questionsUnansweredUrl" value="/questions/unanswered.do"/>
+  <li><a href="${questionsUnansweredUrl}">Unanswered</a></li>
+  <spring:url var="questionAskUrl" value="/questions/ask.do"/>
+  <li class="pull-right"><a href="${questionAskUrl}">Ask Question</a></li>
+</ul>
