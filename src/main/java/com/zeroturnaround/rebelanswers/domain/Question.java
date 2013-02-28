@@ -17,12 +17,12 @@ public class Question implements Serializable {
   private String title;
   @Column(name = "content")
   private String content;
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "user_id")
   private User author;
-  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = Answer.class, mappedBy = "question")
   private List<Answer> answers;
-  @OneToOne(fetch = FetchType.LAZY)
+  @OneToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "answer_id")
   private Answer acceptedAnswer;
   @Column(name = "created_at")
@@ -40,13 +40,13 @@ public class Question implements Serializable {
     this.id = id;
   }
 
-  public Question id(final Long anID) {
-    this.setId(anID);
+  public Question id(final Long id) {
+    this.setId(id);
     return this;
   }
 
   public String getTitle() {
-    return content;
+    return title;
   }
 
   public void setTitle(final String title) {

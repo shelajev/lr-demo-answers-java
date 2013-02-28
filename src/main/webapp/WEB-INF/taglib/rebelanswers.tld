@@ -15,14 +15,32 @@
       Returns the name of an authenticated user.
     </description>
     <name>authUserName</name>
-    <tag-class>com.zeroturnaround.rebelanswers.mvc.taglib.AuthenticatedUserName</tag-class>
+    <tag-class>com.zeroturnaround.rebelanswers.mvc.taglib.AuthenticatedUserNameTag</tag-class>
     <body-content>empty</body-content>
+  </tag>
+
+  <tag>
+    <description>Custom tag to pretty print java.util.Date objects using Prettytime</description>
+    <name>prettytime</name>
+    <tag-class>com.zeroturnaround.rebelanswers.mvc.taglib.PrettyTimeTag</tag-class>
+    <body-content>empty</body-content>
+    <attribute>
+      <name>date</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
   </tag>
 
   <function>
     <name>sortStringArray</name>
-    <function-class>com.zeroturnaround.rebelanswers.mvc.taglib.Sort</function-class>
+    <function-class>com.zeroturnaround.rebelanswers.mvc.taglib.JspUtils</function-class>
     <function-signature>java.lang.String[] sortStringArray(java.lang.String[])</function-signature>
+  </function>
+
+  <function>
+    <name>sanitizeForUrl</name>
+    <function-class>com.zeroturnaround.rebelanswers.mvc.taglib.JspUtils</function-class>
+    <function-signature>java.lang.String sanitizeForUrl(java.lang.String)</function-signature>
   </function>
 
 </taglib>

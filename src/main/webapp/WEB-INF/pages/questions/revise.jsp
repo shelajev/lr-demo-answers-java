@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <%@ include file="../common/head.jspf" %>
-  <title>Rebel Answers - Ask your question</title>
+  <title>Rebel Answers - Revise your question</title>
 </head>
 <body>
 
@@ -20,7 +20,12 @@
 
           <div class="control-group">
             <div class="controls">
-              <button type="submit" class="btn">Post your question</button>
+              <button type="submit" class="btn">Save revision</button>
+              <spring:url var="questionUrl" value="/question/{id}/{title}">
+                <spring:param name="id" value="${question.id}"/>
+                <spring:param name="title" value="${ra:sanitizeForUrl(question.title)}"/>
+              </spring:url>
+              <a href="${questionUrl}">Cancel</a>
             </div>
           </div>
         </form:form>

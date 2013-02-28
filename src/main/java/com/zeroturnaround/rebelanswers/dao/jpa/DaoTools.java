@@ -38,32 +38,19 @@ public class DaoTools {
         attributeValue).getResultList());
   }
 
-  public <T> List<T> findByAttribute(final Class<T> entityClass, final String attributeName,
-                                     final Object attributeValue, final String orderByAttributeName, final SortOrder sortOrder) {
-    if (null == entityClass) throw new IllegalArgumentException("entityClass can't be null");
-    if (null == attributeName) throw new IllegalArgumentException("attributeName can't be null");
-    if (null == attributeValue) throw new IllegalArgumentException("attributeValue can't be null");
-    if (null == orderByAttributeName) throw new IllegalArgumentException("orderByAttributeName can't be null");
-
-    return castResultList(entityManager.createQuery(
-        "select e from " + entityClass.getSimpleName() + " e where e." + attributeName + " = ?1 ORDER BY e."
-            + orderByAttributeName + " " + sortOrder.name()).setParameter(1, attributeValue).getResultList());
-  }
-
-  public <T> List<T> getAllEntities(final Class<T> entityClass) {
-    if (null == entityClass) throw new IllegalArgumentException("entityClass can't be null");
-
-    return castResultList(entityManager.createQuery("select e from " + entityClass.getSimpleName() + " e")
-        .getResultList());
-  }
-
   public <T> List<T> getAllEntities(final Class<T> entityClass, final String orderByAttributeName,
                                     final SortOrder sortOrder) {
+    return getFilteredEntities(entityClass, orderByAttributeName, sortOrder, "");
+  }
+
+  public <T> List<T> getFilteredEntities(final Class<T> entityClass, final String orderByAttributeName,
+                                         final SortOrder sortOrder, final String filter) {
     if (null == entityClass) throw new IllegalArgumentException("entityClass can't be null");
     if (null == orderByAttributeName) throw new IllegalArgumentException("orderByAttributeName can't be null");
+    if (null == filter) throw new IllegalArgumentException("filter can't be null");
 
     return castResultList(entityManager.createQuery(
-        "select e from " + entityClass.getSimpleName() + " e order by e." + orderByAttributeName + " "
+        "select e from " + entityClass.getSimpleName() + " e " + filter + " order by e." + orderByAttributeName + " "
             + sortOrder.name()).getResultList());
   }
 

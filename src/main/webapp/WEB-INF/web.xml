@@ -33,7 +33,7 @@
 
   <servlet-mapping>
     <servlet-name>answers</servlet-name>
-    <url-pattern>*.do</url-pattern>
+    <url-pattern>/</url-pattern>
   </servlet-mapping>
 
   <context-param>

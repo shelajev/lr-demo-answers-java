@@ -1,8 +1,8 @@
-<%@ include file="../fragments/taglibs.jspf" %>
+<%@ include file="../common/taglibs.jspf" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <%@ include file="../fragments/head.jspf" %>
+  <%@ include file="../common/head.jspf" %>
   <title>Rebel Answers - Log in or Sign up</title>
 </head>
 <body>
@@ -10,7 +10,7 @@
 <div class="container">
   <div class="row">
     <div class="span12">
-      <%@include file="../fragments/navbar.jspf" %>
+      <%@ include file="../common/navbar.jspf" %>
 
       <div class="content">
 
@@ -49,13 +49,13 @@
             </form>
           </div>
           <div class="span4">
-            <form:form modelAttribute="registrationData" action="/signup.do" method="post">
+            <form:form modelAttribute="registrationData" action="/signup" method="post">
               <fieldset>
                 <legend>New to Rebel Answers?</legend>
 
                 <p>A Rebel Answers account is required to continue.</p>
 
-                <%@ include file="../fragments/errors.jspf" %>
+                <%@ include file="../common/errors.jspf" %>
 
                 <div>
                   <form:label path="name">Full name</form:label>

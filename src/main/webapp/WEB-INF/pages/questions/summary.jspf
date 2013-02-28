@@ -1,0 +1,23 @@
+<div class="row">
+  <div class="span1 counters">
+    <p class="text-center">
+      <c:out value="${question.answers.size()}"/><br/>
+      answer(s)
+    </p>
+  </div>
+  <div class="span11">
+    <spring:url var="questionUrl" value="/question/{id}/{title}">
+      <spring:param name="id" value="${question.id}"/>
+      <spring:param name="title" value="${ra:sanitizeForUrl(question.title)}"/>
+    </spring:url>
+    <h2><a href="${questionUrl}"><c:out value="${question.title}"/></a></h2>
+    <c:if test="${not empty question.acceptedAnswer}">
+      <span class="label label-success">Answered</span>
+    </c:if>
+
+    <div class="note">
+      Asked by <c:out value="${question.author.name}"/>&nbsp;
+      <ra:prettytime date="${question.created}"/>
+    </div>
+  </div>
+</div>

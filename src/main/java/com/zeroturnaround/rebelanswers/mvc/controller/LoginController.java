@@ -35,22 +35,22 @@ public class LoginController {
 
   @RequestMapping(value = "/login", method = RequestMethod.GET)
   public ModelAndView loginHandler(final ModelMap modelMap, final HttpServletRequest request, final HttpSession session) {
-    final ModelAndView result = new ModelAndView("authentication/login");
+    final ModelAndView mav = new ModelAndView("authentication/login");
     modelMap.addAttribute("registrationData", new RegistrationData());
 
     final boolean loginError = request.getParameter("login_error") != null;
     if (loginError) {
-      result.addObject("loginError", loginError);
+      mav.addObject("loginError", loginError);
       Exception e = (Exception) session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
       if (e instanceof BadCredentialsException) {
         //noinspection deprecation
         Authentication auth = ((BadCredentialsException) e).getAuthentication();
         Object principal = auth.getPrincipal();
-        result.addObject("lastUser", principal);
+        mav.addObject("lastUser", principal);
       }
     }
 
-    return result;
+    return mav;
   }
 
   @RequestMapping(value = "/signup", method = RequestMethod.POST)
@@ -71,7 +71,7 @@ public class LoginController {
       UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(principal, null, principal.getAuthorities());
       SecurityContextHolder.getContext().setAuthentication(auth);
 
-      return "redirect:/welcome.do";
+      return "redirect:/";
     }
   }
 }

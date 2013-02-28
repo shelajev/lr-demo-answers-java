@@ -14,7 +14,7 @@ public class UserDetailsWrapper implements UserDetails {
   private final static Collection<SimpleGrantedAuthority> DEFAULT_AUTHORITIES;
 
   static {
-    DEFAULT_AUTHORITIES = Collections.unmodifiableList(Arrays.asList(new SimpleGrantedAuthority(Authorities.USER)));
+    DEFAULT_AUTHORITIES = Collections.unmodifiableList(Arrays.asList(new SimpleGrantedAuthority(StandardAuthorities.USER)));
   }
 
   private final User delegate;

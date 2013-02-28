@@ -17,6 +17,9 @@ public class Answer implements Serializable {
   private User author;
   @Column(name = "created_at")
   private Date created;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "question_id")
+  private Question question;
 
   public Answer() {
   }
@@ -65,6 +68,19 @@ public class Answer implements Serializable {
 
   public Answer created(Date created) {
     setCreated(created);
+    return this;
+  }
+
+  public Question getQuestion() {
+    return question;
+  }
+
+  public void setQuestion(Question question) {
+    this.question = question;
+  }
+
+  public Answer question(Question question) {
+    setQuestion(question);
     return this;
   }
 

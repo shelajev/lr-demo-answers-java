@@ -4,7 +4,7 @@
       <p>Please fix the following input errors:</p>
       <ul>
         <c:forEach items="${ra:sortStringArray(status.errorMessages)}" var="error">
-          <li>${error}</li>
+          <li><c:out value="${error}"/></li>
         </c:forEach>
       </ul>
     </div>

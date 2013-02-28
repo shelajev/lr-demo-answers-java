@@ -12,7 +12,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
 
-public class AuthenticatedUserName extends TagSupport {
+public class AuthenticatedUserNameTag extends TagSupport {
   @Override
   public int doStartTag() throws JspException {
     try {

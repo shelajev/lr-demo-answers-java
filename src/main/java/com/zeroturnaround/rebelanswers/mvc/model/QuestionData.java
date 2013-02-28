@@ -1,5 +1,6 @@
 package com.zeroturnaround.rebelanswers.mvc.model;
 
+import com.zeroturnaround.rebelanswers.domain.Question;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.Size;
@@ -14,8 +15,13 @@ public class QuestionData {
   public QuestionData() {
   }
 
+  public QuestionData(Question question) {
+    this.title = question.getTitle();
+    this.content = question.getContent();
+  }
+
   public String getTitle() {
-    return content;
+    return title;
   }
 
   public void setTitle(final String title) {
