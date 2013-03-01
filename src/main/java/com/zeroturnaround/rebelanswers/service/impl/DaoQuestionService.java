@@ -41,6 +41,11 @@ public class DaoQuestionService implements QuestionService {
     return questionDao.getUnansweredQuestionsWithoutAnswers();
   }
 
+  @Transactional(readOnly = true)
+  public Collection<Question> searchQuestions(String search) {
+    return questionDao.searchQuestions(search);
+  }
+
   @Transactional(readOnly = false)
   public boolean store(final Question question) {
     if (null == question) {

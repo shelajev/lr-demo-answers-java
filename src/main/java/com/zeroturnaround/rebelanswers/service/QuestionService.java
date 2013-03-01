@@ -16,6 +16,8 @@ public interface QuestionService {
 
   public Collection<Question> getUnansweredQuestionsWithoutAnswers();
 
+  public Collection<Question> searchQuestions(String search);
+
   public boolean store(Question question);
 
 }

@@ -16,5 +16,7 @@ public interface QuestionDao {
 
   public Collection<Question> getUnansweredQuestionsWithoutAnswers();
 
+  public Collection<Question> searchQuestions(String search);
+
   public Question persistOrMerge(Question question);
 }

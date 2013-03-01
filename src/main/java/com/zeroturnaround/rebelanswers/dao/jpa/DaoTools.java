@@ -74,6 +74,19 @@ public class DaoTools {
             + sortOrder.name()).getResultList());
   }
 
+  public <T> List<T> searchByAttribute(final Class<T> entityClass, final String attributeName, final Object attributeValue,
+                                       final String orderByAttributeName, final SortOrder sortOrder) {
+    if (null == entityClass) throw new IllegalArgumentException("entityClass can't be null");
+    if (null == attributeName) throw new IllegalArgumentException("attributeName can't be null");
+    if (null == attributeValue) throw new IllegalArgumentException("attributeValue can't be null");
+    if (null == orderByAttributeName) throw new IllegalArgumentException("orderByAttributeName can't be null");
+
+    return castResultList(entityManager.createQuery(
+        "select e from " + entityClass.getSimpleName() + " e where e." + attributeName + " LIKE ?1 order by e." + orderByAttributeName + " "
+            + sortOrder.name())
+        .setParameter(1, "%"+String.valueOf(attributeValue).replace("%","")+"%").getResultList());
+  }
+
   public <T> T persist(final Class<T> entityClass, final T entity) {
     if (null == entityClass) throw new IllegalArgumentException("entityClass can't be null");
     if (null == entity) throw new IllegalArgumentException("entity can't be null");
@@ -87,24 +100,6 @@ public class DaoTools {
     if (null == entity) throw new IllegalArgumentException("entity can't be null");
 
     return entityManager.merge(entity);
-  }
-
-  public long countEntities(final Class<?> entityClass) {
-    if (null == entityClass) throw new IllegalArgumentException("entityClass can't be null");
-
-    return (Long) entityManager.createQuery("select count(entity) from " + entityClass.getSimpleName() + " entity")
-        .getSingleResult();
-  }
-
-  public long countEntitiesByAttribute(final Class<?> entityClass, final String attributeName,
-                                       final Object attributeValue) {
-    if (null == entityClass) throw new IllegalArgumentException("entityClass can't be null");
-    if (null == attributeName) throw new IllegalArgumentException("attributeName can't be null");
-    if (null == attributeValue) throw new IllegalArgumentException("attributeValue can't be null");
-
-    return (Long) entityManager.createQuery(
-        "select count(e) from " + entityClass.getSimpleName() + " e where e." + attributeName + " = ?1").setParameter(
-        1, attributeValue).getSingleResult();
   }
 
   public enum SortOrder {

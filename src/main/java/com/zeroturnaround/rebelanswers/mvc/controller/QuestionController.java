@@ -22,6 +22,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
+import java.util.Collection;
 
 @Controller
 public class QuestionController {
@@ -204,6 +205,19 @@ public class QuestionController {
               .encode();
       return new ModelAndView(uriComponents.toUriString());
     }
+  }
+
+  /**
+   * Search questions
+   */
+
+  @RequestMapping(value = "/search", method = RequestMethod.GET)
+  public ModelAndView searchQuestions(@RequestParam final String q) {
+    final ModelAndView mav = new ModelAndView("questions/search");
+    mav.addObject("q", q);
+    Collection<Question> questions = service.searchQuestions(q);
+    mav.addObject("questions", questions);
+    return mav;
   }
 
   static enum Filter {newest, noanswers}

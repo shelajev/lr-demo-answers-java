@@ -34,6 +34,10 @@ public class QuestionDaoImpl implements QuestionDao {
     return daoTools.getFilteredEntities(Question.class, "created", DaoTools.SortOrder.DESC, "where acceptedAnswer is null and size(answers) = 0");
   }
 
+  public Collection<Question> searchQuestions(String search) {
+    return daoTools.searchByAttribute(Question.class, "title", search, "created", DaoTools.SortOrder.DESC);
+  }
+
   public Question persistOrMerge(final Question question) {
     if (null == question) throw new IllegalArgumentException("question can't be null");
 

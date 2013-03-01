@@ -48,6 +48,75 @@ public class LoginController {
     this.connectionRepository = connectionRepository;
   }
 
+  /**
+   * Login
+   */
+
+  @RequestMapping(value = "/login", method = RequestMethod.GET)
+  public ModelAndView loginHandler(final ModelMap modelMap, final HttpServletRequest request, final HttpSession session) {
+    final ModelAndView mav = new ModelAndView("authentication/login");
+    modelMap.addAttribute("registrationData", new RegistrationData());
+
+    final boolean loginError = request.getParameter("login_error") != null;
+    if (loginError) {
+      mav.addObject("loginError", loginError);
+      Exception e = (Exception) session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+      if (e instanceof BadCredentialsException) {
+        //noinspection deprecation
+        Authentication auth = ((BadCredentialsException) e).getAuthentication();
+        Object principal = auth.getPrincipal();
+        mav.addObject("lastUser", principal);
+      }
+    }
+
+    return mav;
+  }
+
+  /**
+   * Registration
+   */
+
+  private void loginUser(User user) {
+    UserDetailsWrapper principal = new UserDetailsWrapper(user);
+    UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(principal, null, principal.getAuthorities());
+    SecurityContextHolder.getContext().setAuthentication(auth);
+  }
+
+  @RequestMapping(value = "/signup", method = RequestMethod.POST)
+  public String signup(@ModelAttribute @Valid final RegistrationData registrationData, BindingResult result) {
+    if (result.hasErrors()) {
+      return "authentication/login";
+    }
+    else {
+      User user = new User()
+          .email(registrationData.getEmail())
+          .name(registrationData.getName())
+          .setAndEncodePassword(registrationData.getPassword());
+      if (!service.store(user)) {
+        throw new UserStorageErrorException(user);
+      }
+
+      loginUser(user);
+      return "redirect:/";
+    }
+  }
+
+  /**
+   * Facebook connect
+   */
+
+  @RequestMapping(value = "/facebook/connect")
+  public View facebookConnect() {
+    String connected_uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/facebook/connected").build().toUriString();
+
+    FacebookConnectionFactory connectionFactory = (FacebookConnectionFactory) connectionRepository.getConnectionFactory("facebook");
+    OAuth2Operations oauthOperations = connectionFactory.getOAuthOperations();
+    OAuth2Parameters oAuth2Parameters = new OAuth2Parameters();
+    oAuth2Parameters.setRedirectUri(connected_uri);
+    String authorizeUrl = oauthOperations.buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE, oAuth2Parameters);
+    return new RedirectView(authorizeUrl);
+  }
+
   @RequestMapping(value = "/facebook/connected")
   public String facebookConnected(@RequestParam final String code) {
     String connected_uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/facebook/connected").build().toUriString();
@@ -73,62 +142,5 @@ public class LoginController {
       loginUser(user);
     }
     return "redirect:/";
-  }
-
-  @RequestMapping(value = "/facebook/connect")
-  public View facebookConnect() {
-    String connected_uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/facebook/connected").build().toUriString();
-
-    FacebookConnectionFactory connectionFactory = (FacebookConnectionFactory) connectionRepository.getConnectionFactory("facebook");
-    OAuth2Operations oauthOperations = connectionFactory.getOAuthOperations();
-    OAuth2Parameters oAuth2Parameters = new OAuth2Parameters();
-    oAuth2Parameters.setRedirectUri(connected_uri);
-    String authorizeUrl = oauthOperations.buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE, oAuth2Parameters);
-    return new RedirectView(authorizeUrl);
-  }
-
-  @RequestMapping(value = "/login", method = RequestMethod.GET)
-  public ModelAndView loginHandler(final ModelMap modelMap, final HttpServletRequest request, final HttpSession session) {
-    final ModelAndView mav = new ModelAndView("authentication/login");
-    modelMap.addAttribute("registrationData", new RegistrationData());
-
-    final boolean loginError = request.getParameter("login_error") != null;
-    if (loginError) {
-      mav.addObject("loginError", loginError);
-      Exception e = (Exception) session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
-      if (e instanceof BadCredentialsException) {
-        //noinspection deprecation
-        Authentication auth = ((BadCredentialsException) e).getAuthentication();
-        Object principal = auth.getPrincipal();
-        mav.addObject("lastUser", principal);
-      }
-    }
-
-    return mav;
-  }
-
-  private void loginUser(User user) {
-    UserDetailsWrapper principal = new UserDetailsWrapper(user);
-    UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(principal, null, principal.getAuthorities());
-    SecurityContextHolder.getContext().setAuthentication(auth);
-  }
-
-  @RequestMapping(value = "/signup", method = RequestMethod.POST)
-  public String signup(@ModelAttribute @Valid final RegistrationData registrationData, BindingResult result) {
-    if (result.hasErrors()) {
-      return "authentication/login";
-    }
-    else {
-      User user = new User()
-          .email(registrationData.getEmail())
-          .name(registrationData.getName())
-          .setAndEncodePassword(registrationData.getPassword());
-      if (!service.store(user)) {
-        throw new UserStorageErrorException(user);
-      }
-
-      loginUser(user);
-      return "redirect:/";
-    }
   }
 }
