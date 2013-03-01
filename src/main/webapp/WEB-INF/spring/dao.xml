@@ -16,4 +16,8 @@
     <constructor-arg ref="daoTools"/>
   </bean>
 
+  <bean id="answerDao" class="com.zeroturnaround.rebelanswers.dao.jpa.AnswerDaoImpl">
+    <constructor-arg ref="daoTools"/>
+  </bean>
+
 </beans>

@@ -19,8 +19,10 @@ public class SecurityTools {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     if (auth != null) {
       if (service != null) {
-        UserDetailsWrapper principal = (UserDetailsWrapper) auth.getPrincipal();
-        return service.findByEmail(principal.getUsername());
+        Object principal = auth.getPrincipal();
+        if (principal instanceof UserDetailsWrapper) {
+          return service.findByEmail(((UserDetailsWrapper) principal).getUsername());
+        }
       }
     }
 

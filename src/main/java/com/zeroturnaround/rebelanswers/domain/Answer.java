@@ -12,12 +12,12 @@ public class Answer implements Serializable {
   private Long id;
   @Column(name = "content")
   private String content;
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "user_id")
   private User author;
   @Column(name = "created_at")
   private Date created;
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "question_id")
   private Question question;
 
@@ -82,6 +82,23 @@ public class Answer implements Serializable {
   public Answer question(Question question) {
     setQuestion(question);
     return this;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    Answer answer = (Answer) o;
+
+    if (id != null ? !id.equals(answer.id) : answer.id != null) return false;
+
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    return id != null ? id.hashCode() : 0;
   }
 
   @Override

@@ -108,17 +108,6 @@ public class User implements Serializable {
   }
 
   @Override
-  public String toString() {
-    final StringBuilder result = new StringBuilder("User(");
-    result
-        .append(id).append(";")
-        .append(email).append(";")
-        .append(name)
-        .append(")");
-    return result.toString();
-  }
-
-  @Override
   public int hashCode() {
     return (email == null) ? 0 : email.hashCode();
   }
@@ -132,4 +121,14 @@ public class User implements Serializable {
     return !(email != null ? !email.equals(o.email) : o.email != null);
   }
 
+  @Override
+  public String toString() {
+    final StringBuilder result = new StringBuilder("User(");
+    result
+        .append(id).append(";")
+        .append(email).append(";")
+        .append(name)
+        .append(")");
+    return result.toString();
+  }
 }

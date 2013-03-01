@@ -31,6 +31,18 @@
     </attribute>
   </tag>
 
+  <tag>
+    <description>Custom tag to convert markdown text to HTML using PegDown</description>
+    <name>markdownToHtml</name>
+    <tag-class>com.zeroturnaround.rebelanswers.mvc.taglib.MarkdownToHtmlTag</tag-class>
+    <body-content>empty</body-content>
+    <attribute>
+      <name>text</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
   <function>
     <name>sortStringArray</name>
     <function-class>com.zeroturnaround.rebelanswers.mvc.taglib.JspUtils</function-class>

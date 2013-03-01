@@ -1,11 +1,12 @@
 package com.zeroturnaround.rebelanswers.mvc.controller;
 
+import com.zeroturnaround.rebelanswers.domain.Answer;
 import com.zeroturnaround.rebelanswers.domain.Question;
 import com.zeroturnaround.rebelanswers.domain.User;
 import com.zeroturnaround.rebelanswers.mvc.exceptions.QuestionStorageErrorException;
+import com.zeroturnaround.rebelanswers.mvc.model.AnswerData;
 import com.zeroturnaround.rebelanswers.mvc.model.QuestionData;
 import com.zeroturnaround.rebelanswers.mvc.taglib.JspUtils;
-import com.zeroturnaround.rebelanswers.mvc.tools.ThreadSafePegDownProcessor;
 import com.zeroturnaround.rebelanswers.security.SecurityTools;
 import com.zeroturnaround.rebelanswers.security.StandardAuthorities;
 import com.zeroturnaround.rebelanswers.service.QuestionService;
@@ -27,7 +28,6 @@ public class QuestionController {
 
   private final QuestionService service;
   private final SecurityTools tools;
-  private final ThreadSafePegDownProcessor pegDown = new ThreadSafePegDownProcessor();
 
   @Autowired
   public QuestionController(final QuestionService service, final SecurityTools tools) {
@@ -41,71 +41,52 @@ public class QuestionController {
     this.tools = null;
   }
 
-  private ModelAndView getQuestionsModelAndView(final Filter filterBy) {
-    final ModelAndView mav = new ModelAndView("questions/all");
-    mav.addObject("subSection", filterBy);
-    return mav;
-  }
+  /**
+   * Ask question
+   */
 
-  @RequestMapping(value = "/question/{questionId}/{questionTitle}", method = RequestMethod.GET)
-  public ModelAndView showQuestion(@PathVariable final Long questionId) throws NoSuchRequestHandlingMethodException {
-    final ModelAndView mav = new ModelAndView("questions/read");
-    Question question = service.getQuestionById(questionId);
-    if (null == question) {
-      throw new NoSuchRequestHandlingMethodException("showQuestion", this.getClass());
-    }
-    mav.addObject(question);
-    mav.addObject("questionHtml", pegDown.markdownToHtml(question.getContent()));
-    return mav;
-  }
-
-  private ModelAndView getReviseModelAndView(final Long questionId) throws NoSuchRequestHandlingMethodException {
-    final ModelAndView mav = new ModelAndView("questions/revise");
-    Question question = service.getQuestionById(questionId);
-    if (null == question) {
-      throw new NoSuchRequestHandlingMethodException("reviseQuestion", this.getClass());
-    }
-    User user = tools.getAuthenticatedUser();
-    if (null == user || user.getId() != question.getAuthor().getId()) {
-      throw new AccessDeniedException("Not the author of the question");
-    }
-
-    mav.addObject(question);
-
+  public ModelAndView getAskModelAndView() {
+    final ModelAndView mav = new ModelAndView("questions/ask");
+    mav.addObject("section", "ask");
     return mav;
   }
 
   @RolesAllowed({ StandardAuthorities.USER })
-  @RequestMapping(value = "/questions/revise/{questionId}", method = RequestMethod.GET)
-  public ModelAndView reviseQuestion(@PathVariable final Long questionId) throws NoSuchRequestHandlingMethodException {
-    final ModelAndView mav = getReviseModelAndView(questionId);
-    mav.addObject(new QuestionData((Question) mav.getModelMap().get("question")));
-
+  @RequestMapping(value = "/questions/ask", method = RequestMethod.GET)
+  public ModelAndView ask() {
+    final ModelAndView mav = getAskModelAndView();
+    mav.addObject(new QuestionData());
     return mav;
   }
 
   @RolesAllowed({ StandardAuthorities.USER })
-  @RequestMapping(value = "/questions/revise/{questionId}", method = RequestMethod.POST)
-  public ModelAndView revisedQuestion(@PathVariable final Long questionId, @ModelAttribute @Valid final QuestionData questionData, final BindingResult result) throws NoSuchRequestHandlingMethodException {
-    final ModelAndView mav = getReviseModelAndView(questionId);
+  @RequestMapping(value = "/questions/ask", method = RequestMethod.POST)
+  public ModelAndView asked(@ModelAttribute @Valid final QuestionData questionData, final BindingResult result) {
+    final ModelAndView mav = getAskModelAndView();
     if (result.hasErrors()) {
       return mav;
     }
     else {
-      Question question = ((Question) mav.getModelMap().get("question"))
+      Question question = new Question()
           .title(questionData.getTitle())
-          .content(questionData.getContent());
+          .content(questionData.getContent())
+          .author(tools.getAuthenticatedUser());
       if (!service.store(question)) {
         throw new QuestionStorageErrorException(question);
       }
 
-      UriComponents uriComponents =
-          UriComponentsBuilder.newInstance()
-              .scheme("redirect").path("/question/{id}/{title}").build()
-              .expand(questionId, JspUtils.sanitizeForUrl(question.getTitle()))
-              .encode();
-      return new ModelAndView(uriComponents.toUriString());
+      return new ModelAndView("redirect:/questions/all");
     }
+  }
+
+  /**
+   * List questions
+   */
+
+  public ModelAndView getQuestionsModelAndView(final Filter filterBy) {
+    final ModelAndView mav = new ModelAndView("questions/all");
+    mav.addObject("subSection", filterBy);
+    return mav;
   }
 
   @RequestMapping(value = "/questions/all", method = RequestMethod.GET)
@@ -138,37 +119,90 @@ public class QuestionController {
     return mav;
   }
 
-  private ModelAndView getAskModelAndView() {
-    final ModelAndView mav = new ModelAndView("questions/ask");
-    mav.addObject("section", "ask");
+  /**
+   * Show question
+   */
+
+  public ModelAndView getShowModelAndView(Long questionId) throws NoSuchRequestHandlingMethodException {
+    final ModelAndView mav = new ModelAndView("questions/read");
+    Question question = service.getQuestionById(questionId);
+    if (null == question) {
+      throw new NoSuchRequestHandlingMethodException("showQuestion", this.getClass());
+    }
+    mav.addObject(question);
+
+    boolean hasAnswered = false;
+    User user = tools.getAuthenticatedUser();
+    if (user != null) {
+      for (Answer answer : question.getAnswers()) {
+        if (answer.getAuthor().equals(user)) {
+          hasAnswered = true;
+          break;
+        }
+      }
+    }
+    mav.addObject("hasAnswered", hasAnswered);
+
+    return mav;
+  }
+
+  @RequestMapping(value = "/question/{questionId}/{questionTitle}", method = RequestMethod.GET)
+  public ModelAndView showQuestion(@PathVariable final Long questionId) throws NoSuchRequestHandlingMethodException {
+    final ModelAndView mav = getShowModelAndView(questionId);
+    mav.addObject(new AnswerData());
+    return mav;
+  }
+
+  /**
+   * Revise question
+   */
+
+  public ModelAndView getReviseModelAndView(final Long questionId) throws NoSuchRequestHandlingMethodException {
+    final ModelAndView mav = new ModelAndView("questions/revise");
+    Question question = service.getQuestionById(questionId);
+    if (null == question) {
+      throw new NoSuchRequestHandlingMethodException("reviseQuestion", this.getClass());
+    }
+    User user = tools.getAuthenticatedUser();
+    if (null == user || !user.equals(question.getAuthor())) {
+      throw new AccessDeniedException("Not the author of the question");
+    }
+
+    mav.addObject(question);
+
     return mav;
   }
 
   @RolesAllowed({ StandardAuthorities.USER })
-  @RequestMapping(value = "/questions/ask", method = RequestMethod.GET)
-  public ModelAndView ask() {
-    final ModelAndView mav = getAskModelAndView();
-    mav.addObject(new QuestionData());
+  @RequestMapping(value = "/question/revise/{questionId}", method = RequestMethod.GET)
+  public ModelAndView reviseQuestion(@PathVariable final Long questionId) throws NoSuchRequestHandlingMethodException {
+    final ModelAndView mav = getReviseModelAndView(questionId);
+    mav.addObject(new QuestionData((Question) mav.getModelMap().get("question")));
+
     return mav;
   }
 
   @RolesAllowed({ StandardAuthorities.USER })
-  @RequestMapping(value = "/questions/ask", method = RequestMethod.POST)
-  public ModelAndView asked(@ModelAttribute @Valid final QuestionData questionData, final BindingResult result) {
-    final ModelAndView mav = getAskModelAndView();
+  @RequestMapping(value = "/question/revise/{questionId}", method = RequestMethod.POST)
+  public ModelAndView revisedQuestion(@PathVariable final Long questionId, @ModelAttribute @Valid final QuestionData questionData, final BindingResult result) throws NoSuchRequestHandlingMethodException {
+    final ModelAndView mav = getReviseModelAndView(questionId);
     if (result.hasErrors()) {
       return mav;
     }
     else {
-      Question question = new Question()
+      Question question = ((Question) mav.getModelMap().get("question"))
           .title(questionData.getTitle())
-          .content(questionData.getContent())
-          .author(tools.getAuthenticatedUser());
+          .content(questionData.getContent());
       if (!service.store(question)) {
         throw new QuestionStorageErrorException(question);
       }
 
-      return new ModelAndView("redirect:/questions/all");
+      UriComponents uriComponents =
+          UriComponentsBuilder.newInstance()
+              .scheme("redirect").path("/question/{id}/{title}").build()
+              .expand(questionId, JspUtils.sanitizeForUrl(question.getTitle()))
+              .encode();
+      return new ModelAndView(uriComponents.toUriString());
     }
   }
 
