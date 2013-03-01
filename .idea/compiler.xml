@@ -26,6 +26,9 @@
         <module name="lr-demo-qa-java" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="lr-demo-answers" target="1.7" />
+    </bytecodeTargetLevel>
   </component>
 </project>
 
