@@ -90,7 +90,8 @@
 
                 <p>It's fast and easy.</p>
 
-                <a id="fb-connect" href="#">Log in with Facebook</a>
+                <spring:url var="facebookUrl" value="/facebook/connect"/>
+                <a href="${facebookUrl}">Log in with Facebook</a>
               </fieldset>
             </form>
           </div>

@@ -14,6 +14,18 @@ public class UserDaoImpl implements UserDao {
     this.daoTools = daoTools;
   }
 
+  public User findByUsername(final String username) {
+    final List<User> list = daoTools.findByPossibleAttributes(User.class, new String[] { "email", "facebookId" }, username);
+    if (list == null || list.isEmpty()) return null;
+    return list.get(0);
+  }
+
+  public User findByFacebookId(final String facebookId) {
+    final List<User> list = daoTools.findByAttribute(User.class, "facebookId", facebookId);
+    if (list == null || list.isEmpty()) return null;
+    return list.get(0);
+  }
+
   public User findByEmail(final String email) {
     final List<User> list = daoTools.findByAttribute(User.class, "email", email);
     if (list == null || list.isEmpty()) return null;

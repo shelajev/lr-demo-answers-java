@@ -15,17 +15,19 @@ public class User implements Serializable {
   @Id
   @GeneratedValue
   private Long id;
-  @NotEmpty @Email
+  @Email
   @Column(name = "email", unique = true)
   private String email;
   @NotEmpty @Size(max = 255)
   @Column(name = "name")
   private String name;
-  @NotEmpty @Size(min = 6, max = 255)
+  @Size(min = 6, max = 255)
   @Column(name = "password")
   private String password;
   @Column(name = "created_at")
   private Date created;
+  @Column(name = "facebook_id")
+  private String facebookId;
 
   public User() {
   }
@@ -104,6 +106,19 @@ public class User implements Serializable {
 
   public User created(Date created) {
     setCreated(created);
+    return this;
+  }
+
+  public String getFacebookId() {
+    return facebookId;
+  }
+
+  public void setFacebookId(String facebookId) {
+    this.facebookId = facebookId;
+  }
+
+  public User facebookId(String facebookId) {
+    setFacebookId(facebookId);
     return this;
   }
 

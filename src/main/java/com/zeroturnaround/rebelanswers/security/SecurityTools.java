@@ -21,7 +21,7 @@ public class SecurityTools {
       if (service != null) {
         Object principal = auth.getPrincipal();
         if (principal instanceof UserDetailsWrapper) {
-          return service.findByEmail(((UserDetailsWrapper) principal).getUsername());
+          return service.findByUsername(((UserDetailsWrapper) principal).getUsername());
         }
       }
     }

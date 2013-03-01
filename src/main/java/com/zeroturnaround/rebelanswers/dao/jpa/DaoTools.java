@@ -34,8 +34,28 @@ public class DaoTools {
     if (null == attributeValue) throw new IllegalArgumentException("attributeValue can't be null");
 
     return castResultList(entityManager.createQuery(
-        "select e from " + entityClass.getSimpleName() + " e where e." + attributeName + " = ?1").setParameter(1,
-        attributeValue).getResultList());
+        "select e from " + entityClass.getSimpleName() + " e where e." + attributeName + " = ?1")
+        .setParameter(1, attributeValue).getResultList());
+  }
+
+  public <T> List<T> findByPossibleAttributes(final Class<T> entityClass, final String[] attributeNames, final Object attributeValue) {
+    if (null == entityClass) throw new IllegalArgumentException("entityClass can't be null");
+    if (null == attributeNames) throw new IllegalArgumentException("attributeNames can't be null");
+    if (attributeNames.length == 0) throw new IllegalArgumentException("attributeNames can't be empty");
+    if (null == attributeValue) throw new IllegalArgumentException("attributeValue can't be null");
+
+    StringBuilder attributes = new StringBuilder();
+    for (String attributeName : attributeNames) {
+      if (attributes.length() > 0) {
+        attributes.append(" or ");
+      }
+      attributes.append("e.");
+      attributes.append(attributeName);
+      attributes.append(" = ?1");
+    }
+    return castResultList(entityManager.createQuery(
+        "select e from " + entityClass.getSimpleName() + " e where " + attributes)
+        .setParameter(1, attributeValue).getResultList());
   }
 
   public <T> List<T> getAllEntities(final Class<T> entityClass, final String orderByAttributeName,

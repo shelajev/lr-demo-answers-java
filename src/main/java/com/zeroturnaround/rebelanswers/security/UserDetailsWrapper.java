@@ -24,7 +24,7 @@ public class UserDetailsWrapper implements UserDetails {
   }
 
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    if (null == delegate.getEmail() || null == delegate.getId())
+    if ((null == delegate.getFacebookId() && null == delegate.getEmail()) || null == delegate.getId())
     {
       return Collections.emptyList();
     }
@@ -37,6 +37,10 @@ public class UserDetailsWrapper implements UserDetails {
   }
 
   public String getUsername() {
+    String facebook_id = delegate.getFacebookId();
+    if (facebook_id != null) {
+      return facebook_id;
+    }
     return delegate.getEmail();
   }
 

@@ -22,7 +22,7 @@ public class AuthenticatedUserNameTag extends TagSupport {
         UserService userService = ctx.getBean(UserService.class);
         if (userService != null) {
           UserDetailsWrapper principal = (UserDetailsWrapper) auth.getPrincipal();
-          User user = userService.findByEmail(principal.getUsername());
+          User user = userService.findByUsername(principal.getUsername());
           if (user != null) {
             pageContext.getOut().print(user.getName());
           }

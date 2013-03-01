@@ -19,6 +19,16 @@ public class DaoUserService implements UserService, UserDetailsService {
   }
 
   @Transactional(readOnly = true)
+  public User findByUsername(final String username) {
+    return userDao.findByUsername(username);
+  }
+
+  @Transactional(readOnly = true)
+  public User findByFacebookId(final String facebookId) {
+    return userDao.findByFacebookId(facebookId);
+  }
+
+  @Transactional(readOnly = true)
   public User findByEmail(final String email) {
     return userDao.findByEmail(email);
   }
