@@ -10,20 +10,18 @@
           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
   <context:component-scan base-package="com.zeroturnaround.rebelanswers.mvc.controller"/>
-  <mvc:annotation-driven/>
+  <mvc:annotation-driven>
+    <mvc:argument-resolvers>
+      <bean class="org.springframework.data.web.PageableArgumentResolver"/>
+    </mvc:argument-resolvers>
+  </mvc:annotation-driven>
 
   <mvc:resources mapping="/css/**" location="/css/"/>
   <mvc:resources mapping="/images/**" location="/images/"/>
   <mvc:resources mapping="/js/**" location="/js/"/>
 
-  <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-    <property name="basename" value="/WEB-INF/messages"/>
-    <property name="cacheSeconds" value="3000"/>
-  </bean>
-
   <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
     <property name="prefix" value="/WEB-INF/pages/"/>
     <property name="suffix" value=".jsp"/>
   </bean>
-
 </beans>

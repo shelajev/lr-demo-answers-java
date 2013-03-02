@@ -3,9 +3,9 @@ package com.zeroturnaround.rebelanswers.service.impl;
 import com.zeroturnaround.rebelanswers.dao.QuestionDao;
 import com.zeroturnaround.rebelanswers.domain.Question;
 import com.zeroturnaround.rebelanswers.service.QuestionService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Collection;
 
 public class DaoQuestionService implements QuestionService {
 
@@ -16,34 +16,33 @@ public class DaoQuestionService implements QuestionService {
   }
 
   @Transactional(readOnly = true)
-  public Question getQuestionById(Long id)
-  {
+  public Question getQuestionById(Long id) {
     return questionDao.getQuestionById(id);
   }
 
   @Transactional(readOnly = true)
-  public Collection<Question> getAllQuestions() {
-    return questionDao.getAllQuestions();
+  public Page<Question> getAllQuestions(Pageable pageable) {
+    return questionDao.getAllQuestions(pageable);
   }
 
   @Transactional(readOnly = true)
-  public Collection<Question> getQuestionsWithoutAnswers() {
-    return questionDao.getQuestionsWithoutAnswers();
+  public Page<Question> getQuestionsWithoutAnswers(Pageable pageable) {
+    return questionDao.getQuestionsWithoutAnswers(pageable);
   }
 
   @Transactional(readOnly = true)
-  public Collection<Question> getUnansweredQuestions() {
-    return questionDao.getUnansweredQuestions();
+  public Page<Question> getUnansweredQuestions(Pageable pageable) {
+    return questionDao.getUnansweredQuestions(pageable);
   }
 
   @Transactional(readOnly = true)
-  public Collection<Question> getUnansweredQuestionsWithoutAnswers() {
-    return questionDao.getUnansweredQuestionsWithoutAnswers();
+  public Page<Question> getUnansweredQuestionsWithoutAnswers(Pageable pageable) {
+    return questionDao.getUnansweredQuestionsWithoutAnswers(pageable);
   }
 
   @Transactional(readOnly = true)
-  public Collection<Question> searchQuestions(String search) {
-    return questionDao.searchQuestions(search);
+  public Page<Question> searchQuestions(String search, Pageable pageable) {
+    return questionDao.searchQuestions(search, pageable);
   }
 
   @Transactional(readOnly = false)

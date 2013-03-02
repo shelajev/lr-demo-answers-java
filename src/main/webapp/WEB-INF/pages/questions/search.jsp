@@ -16,13 +16,19 @@
 
         <h1>Search results for '<c:out value="${q}"/>'</h1>
 
-        <c:forEach var="question" items="${questions}">
-          <%@ include file="summary.jspf" %>
-        </c:forEach>
-
-        <c:if test="${empty questions}">
-          <p>No questions found.</p>
-        </c:if>
+        <c:choose>
+          <c:when test="${not empty questions}">
+            <c:forEach var="question" items="${questions}">
+              <%@ include file="summary.jspf" %>
+            </c:forEach>
+            <p><util:pagination maxPages="${maxPages}" page="${param['page.page']}" size="${param['page.size']}" preservedParameter="q"/></p>
+          </c:when>
+          <c:otherwise>
+            <c:if test="${empty questions}">
+              <p>No questions found.</p>
+            </c:if>
+          </c:otherwise>
+        </c:choose>
 
       </div>
     </div>

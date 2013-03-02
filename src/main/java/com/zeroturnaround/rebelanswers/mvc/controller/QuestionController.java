@@ -11,6 +11,8 @@ import com.zeroturnaround.rebelanswers.security.SecurityTools;
 import com.zeroturnaround.rebelanswers.security.StandardAuthorities;
 import com.zeroturnaround.rebelanswers.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -22,7 +24,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
-import java.util.Collection;
 
 @Controller
 public class QuestionController {
@@ -91,32 +92,40 @@ public class QuestionController {
   }
 
   @RequestMapping(value = "/questions/all", method = RequestMethod.GET)
-  public ModelAndView allQuestions(@RequestParam(defaultValue = "newest") final Filter filterBy) {
+  public ModelAndView allQuestions(@RequestParam(defaultValue = "newest") final Filter filterBy, Pageable pageable) {
     final ModelAndView mav = getQuestionsModelAndView(filterBy);
     mav.addObject("section", "questions");
+    Page<Question> questions = null;
     switch (filterBy) {
       case newest:
-        mav.addObject("questions", service.getAllQuestions());
+        questions = service.getAllQuestions(pageable);
         break;
       case noanswers:
-        mav.addObject("questions", service.getQuestionsWithoutAnswers());
+        questions = service.getQuestionsWithoutAnswers(pageable);
         break;
     }
+    mav.addObject("questions", questions.getContent());
+    mav.addObject("maxPages", questions.getTotalPages());
+
     return mav;
   }
 
   @RequestMapping(value = "/questions/unanswered", method = RequestMethod.GET)
-  public ModelAndView unansweredQuestions(@RequestParam(defaultValue = "newest") final Filter filterBy) {
+  public ModelAndView unansweredQuestions(@RequestParam(defaultValue = "newest") final Filter filterBy, Pageable pageable) {
     final ModelAndView mav = getQuestionsModelAndView(filterBy);
     mav.addObject("section", "unanswered");
+    Page<Question> questions = null;
     switch (filterBy) {
       case newest:
-        mav.addObject("questions", service.getUnansweredQuestions());
+        questions = service.getUnansweredQuestions(pageable);
         break;
       case noanswers:
-        mav.addObject("questions", service.getUnansweredQuestionsWithoutAnswers());
+        questions = service.getUnansweredQuestionsWithoutAnswers(pageable);
         break;
     }
+    mav.addObject("questions", questions.getContent());
+    mav.addObject("maxPages", questions.getTotalPages());
+
     return mav;
   }
 
@@ -212,11 +221,12 @@ public class QuestionController {
    */
 
   @RequestMapping(value = "/search", method = RequestMethod.GET)
-  public ModelAndView searchQuestions(@RequestParam final String q) {
+  public ModelAndView searchQuestions(@RequestParam final String q, Pageable pageable) {
     final ModelAndView mav = new ModelAndView("questions/search");
     mav.addObject("q", q);
-    Collection<Question> questions = service.searchQuestions(q);
-    mav.addObject("questions", questions);
+    Page<Question> questions = service.searchQuestions(q, pageable);
+    mav.addObject("questions", questions.getContent());
+    mav.addObject("maxPages", questions.getTotalPages());
     return mav;
   }
 

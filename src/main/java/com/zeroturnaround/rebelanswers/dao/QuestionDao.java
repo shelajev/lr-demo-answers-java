@@ -1,6 +1,8 @@
 package com.zeroturnaround.rebelanswers.dao;
 
 import com.zeroturnaround.rebelanswers.domain.Question;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Collection;
 
@@ -8,15 +10,15 @@ public interface QuestionDao {
 
   public Question getQuestionById(Long id);
 
-  public Collection<Question> getAllQuestions();
+  public Page<Question> getAllQuestions(Pageable pageable);
 
-  public Collection<Question> getQuestionsWithoutAnswers();
+  public Page<Question> getQuestionsWithoutAnswers(Pageable pageable);
 
-  public Collection<Question> getUnansweredQuestions();
+  public Page<Question> getUnansweredQuestions(Pageable pageable);
 
-  public Collection<Question> getUnansweredQuestionsWithoutAnswers();
+  public Page<Question> getUnansweredQuestionsWithoutAnswers(Pageable pageable);
 
-  public Collection<Question> searchQuestions(String search);
+  public Page<Question> searchQuestions(String search, Pageable pageable);
 
   public Question persistOrMerge(Question question);
 }

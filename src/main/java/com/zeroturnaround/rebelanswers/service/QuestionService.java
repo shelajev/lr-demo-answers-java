@@ -1,22 +1,22 @@
 package com.zeroturnaround.rebelanswers.service;
 
 import com.zeroturnaround.rebelanswers.domain.Question;
-
-import java.util.Collection;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface QuestionService {
 
   public Question getQuestionById(Long id);
 
-  public Collection<Question> getAllQuestions();
+  public Page<Question> getAllQuestions(Pageable pageable);
 
-  public Collection<Question> getQuestionsWithoutAnswers();
+  public Page<Question> getQuestionsWithoutAnswers(Pageable pageable);
 
-  public Collection<Question> getUnansweredQuestions();
+  public Page<Question> getUnansweredQuestions(Pageable pageable);
 
-  public Collection<Question> getUnansweredQuestionsWithoutAnswers();
+  public Page<Question> getUnansweredQuestionsWithoutAnswers(Pageable pageable);
 
-  public Collection<Question> searchQuestions(String search);
+  public Page<Question> searchQuestions(String search, Pageable pageable);
 
   public boolean store(Question question);
 
