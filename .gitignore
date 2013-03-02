@@ -2,3 +2,4 @@ liquibase.properties
 facebook.properties
 .idea/workspace.xml
 target
+.DS_Store
