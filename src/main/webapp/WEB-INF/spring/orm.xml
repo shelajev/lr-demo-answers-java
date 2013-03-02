@@ -35,18 +35,22 @@
   </bean>
 
   <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-    <property name="entityManagerFactory" ref="entityManagerFactory" />
+    <property name="entityManagerFactory" ref="entityManagerFactory"/>
   </bean>
 
   <bean id="hibernateJpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-    <property name="showSql" value="true" />
-    <property name="generateDdl" value="false" />
+    <property name="showSql" value="false"/>
+    <property name="generateDdl" value="false"/>
   </bean>
 
   <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-    <property name="dataSource" ref="dataSource" />
-    <property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter" />
-    <property name="packagesToScan"><array><value>com.zeroturnaround.rebelanswers.domain</value></array></property>
+    <property name="dataSource" ref="dataSource"/>
+    <property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter"/>
+    <property name="packagesToScan">
+      <array>
+        <value>com.zeroturnaround.rebelanswers.domain</value>
+      </array>
+    </property>
   </bean>
 
 </beans>

@@ -32,9 +32,7 @@
           <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-mapper-asl:1.9.9" />
           <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-core-asl:1.9.9" />
           <element id="library" level="project" name="Maven: org.springframework.social:spring-social-facebook-web:1.0.2.RELEASE" />
-          <element id="library" level="project" name="Maven: javax.servlet.jsp:jsp-api:2.1" />
           <element id="library" level="project" name="Maven: org.springframework.security:spring-security-crypto:3.1.1.RELEASE" />
-          <element id="library" level="project" name="Maven: javax.servlet:servlet-api:2.5" />
           <element id="library" level="project" name="Maven: org.springframework.data:spring-data-commons:1.5.0.RELEASE" />
           <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.1" />
           <element id="library" level="project" name="Maven: org.slf4j:jcl-over-slf4j:1.7.1" />
@@ -50,7 +48,6 @@
           <element id="library" level="project" name="Maven: org.hibernate:hibernate-validator:4.3.1.Final" />
           <element id="library" level="project" name="Maven: javax.validation:validation-api:1.0.0.GA" />
           <element id="library" level="project" name="Maven: mysql:mysql-connector-java:5.1.23" />
-          <element id="library" level="project" name="Maven: javax.servlet.jsp:javax.servlet.jsp-api:2.2.1" />
           <element id="library" level="project" name="Maven: taglibs:standard:1.1.2" />
           <element id="library" level="project" name="Maven: javax.servlet:jstl:1.1.2" />
           <element id="library" level="project" name="Maven: commons-dbcp:commons-dbcp:1.4" />
