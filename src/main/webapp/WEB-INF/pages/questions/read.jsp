@@ -16,51 +16,66 @@
 
         <h3><c:out value="${question.title}"/></h3>
 
-        <ra:markdownToHtml text="${question.content}"/> <br/>
-        Asked by <c:out value="${question.author.name}"/>&nbsp;
-        <ra:prettytime date="${question.created}"/>
-
-        <sec:authorize ifAllGranted="<%=StandardAuthorities.USER%>">
-          <sec:authorize access="principal.delegate.id eq #question.author.id">
-            <c:set var="isQuestionAuthor" value="${true}"/>
-          </sec:authorize>
-        </sec:authorize>
-
-        <c:if test="${isQuestionAuthor}">
-          <spring:url var="reviseUrl" value="/question/revise/{id}">
-            <spring:param name="id" value="${question.id}"/>
-          </spring:url>
-          <a href="${reviseUrl}">Revise</a></li>
-        </c:if>
-
-        <hr/>
-
-        <c:forEach var="answer" items="${question.answers}">
-          <ra:markdownToHtml text="${answer.content}"/><br/>
-          Answered by <c:out value="${answer.author.name}"/>&nbsp;
-          <ra:prettytime date="${answer.created}"/>
-
-          <c:if test="${isQuestionAuthor and question.acceptedAnswer ne answer}">
-            <spring:url var="acceptUrl" value="/answer/accept/{id}">
-              <spring:param name="id" value="${answer.id}"/>
-            </spring:url>
-            <a href="${acceptUrl}">Accept as answer</a>
-          </c:if>
-
-          <c:if test="${question.acceptedAnswer eq answer}">
-            <span class="label label-success">Accepted answer</span>
-          </c:if>
+        <div class="row question">
+          <div class="question">
+            <ra:markdownToHtml text="${question.content}"/>
+          </div>
+          <div class="note">
+            Asked by <c:out value="${question.author.name}"/>&nbsp;
+            <ra:prettytime date="${question.created}"/>
+          </div>
 
           <sec:authorize ifAllGranted="<%=StandardAuthorities.USER%>">
-            <sec:authorize access="principal.delegate.id eq #answer.author.id">
-              <spring:url var="reviseAnswerUrl" value="/answer/revise/{id}">
-                <spring:param name="id" value="${answer.id}"/>
-              </spring:url>
-              <a href="${reviseAnswerUrl}">Revise</a>
+            <sec:authorize access="principal.delegate.id eq #question.author.id">
+              <c:set var="isQuestionAuthor" value="${true}"/>
             </sec:authorize>
           </sec:authorize>
 
-          <hr/>
+          <c:if test="${isQuestionAuthor}">
+            <spring:url var="reviseUrl" value="/question/revise/{id}">
+              <spring:param name="id" value="${question.id}"/>
+            </spring:url>
+            <div class="note">
+              <a href="${reviseUrl}">Revise</a></li>
+            </div>
+          </c:if>
+        </div>
+
+        <c:forEach var="answer" items="${question.answers}">
+          <div class="row answer">
+
+            <c:if test="${question.acceptedAnswer eq answer}">
+              <span class="label label-success">Accepted answer</span>
+            </c:if>
+
+            <div>
+              <ra:markdownToHtml text="${answer.content}"/>
+            </div>
+
+            <div class="note">
+              Answered by <c:out value="${answer.author.name}"/>&nbsp;
+              <ra:prettytime date="${answer.created}"/>
+            </div>
+
+            <div class="note">
+              <c:if test="${isQuestionAuthor and question.acceptedAnswer ne answer}">
+                <spring:url var="acceptUrl" value="/answer/accept/{id}">
+                  <spring:param name="id" value="${answer.id}"/>
+                </spring:url>
+                <a href="${acceptUrl}" class="btn">Accept as answer</a>
+              </c:if>
+
+              <sec:authorize ifAllGranted="<%=StandardAuthorities.USER%>">
+                <sec:authorize access="principal.delegate.id eq #answer.author.id">
+                  <spring:url var="reviseAnswerUrl" value="/answer/revise/{id}">
+                    <spring:param name="id" value="${answer.id}"/>
+                  </spring:url>
+                  <a href="${reviseAnswerUrl}" class="btn">Revise</a>
+                </sec:authorize>
+              </sec:authorize>
+            </div>
+
+          </div>
 
         </c:forEach>
 

@@ -2,11 +2,10 @@ body {
   font-family: 'Open Sans', sans-serif;
 }
 
-a {
+a, a:active {
   color: #82AC2A;
 }
-
-a:hover {
+a:hover, a:focus {
   color: #92C12F;
 }
 
@@ -14,7 +13,6 @@ h1 {
   font-size: 2.5em;
   padding: 0.5em 0;
 }
-
 h2 {
   font-size: 1.5em;
 }
@@ -44,16 +42,19 @@ h1 + .nav-pills {
   padding: 1.5em 0;
 }
 
-.content > .row .counters :first-line {
+.counters :first-line{
   font-size: 150%;
+}
+
+.counters > p {
+  display: inline-block;
 }
 
 .navbar {
   background: #323232;
   position: absolute;
   top: 0;
-  left: 0;
-  right: 0;
+  left: 0; right: 0;
   z-index: 2;
 }
 
@@ -97,8 +98,23 @@ h1 + .nav-pills {
   color: white;
 }
 
-.row > [class*="span"]:first-child {
+.row > [class*=span]:first-child {
   margin-left: 0;
+}
+
+.zebra.row {
+  padding: 10px;
+}
+
+.zebra.row:nth-of-type(2n+1) {
+  background: #FAFAFA;
+}
+
+.zebra.row > [class*=span] {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding-right: 10px;
 }
 
 blockquote {
@@ -114,7 +130,10 @@ blockquote {
 
 .wmd-button-row {
   position: relative;
-  margin: 10px 5px 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  margin-top: 10px;
   padding: 0px;
   height: 20px;
 }
@@ -142,7 +161,9 @@ blockquote {
 }
 
 .wmd-button > span {
-  background: url(../images/wmd-buttons.png) no-repeat 0px 0px;
+  background-image: url(../images/wmd-buttons.png);
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
   width: 20px;
   height: 20px;
   display: inline-block;

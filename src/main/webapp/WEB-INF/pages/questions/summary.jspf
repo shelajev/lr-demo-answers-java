@@ -1,4 +1,4 @@
-<div class="row">
+<div class="zebra row">
   <div class="span1 counters">
     <p class="text-center">
       <c:out value="${question.answers.size()}"/><br/>
