@@ -43,7 +43,7 @@ public class QuestionController {
     this.tools = null;
   }
 
-  /**
+  /*
    * Ask question
    */
 
@@ -81,7 +81,7 @@ public class QuestionController {
     }
   }
 
-  /**
+  /*
    * List questions
    */
 
@@ -129,7 +129,7 @@ public class QuestionController {
     return mav;
   }
 
-  /**
+  /*
    * Show question
    */
 
@@ -163,7 +163,7 @@ public class QuestionController {
     return mav;
   }
 
-  /**
+  /*
    * Revise question
    */
 
@@ -216,7 +216,7 @@ public class QuestionController {
     }
   }
 
-  /**
+  /*
    * Search questions
    */
 

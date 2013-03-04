@@ -48,7 +48,7 @@ public class LoginController {
     this.connectionRepository = connectionRepository;
   }
 
-  /**
+  /*
    * Login
    */
 
@@ -72,7 +72,7 @@ public class LoginController {
     return mav;
   }
 
-  /**
+  /*
    * Registration
    */
 
@@ -101,7 +101,7 @@ public class LoginController {
     }
   }
 
-  /**
+  /*
    * Facebook connect
    */
 

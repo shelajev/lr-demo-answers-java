@@ -51,7 +51,7 @@ public class AnswerController {
     this.tools = null;
   }
 
-  /**
+  /*
    * Answer question
    */
 
@@ -85,7 +85,7 @@ public class AnswerController {
     }
   }
 
-  /**
+  /*
    * Accept answer
    */
 
@@ -116,7 +116,7 @@ public class AnswerController {
     return uriComponents.toUriString();
   }
 
-  /**
+  /*
    * Revise answer
    */
 
