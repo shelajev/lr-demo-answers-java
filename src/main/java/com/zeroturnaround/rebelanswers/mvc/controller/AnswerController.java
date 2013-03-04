@@ -6,7 +6,6 @@ import com.zeroturnaround.rebelanswers.domain.User;
 import com.zeroturnaround.rebelanswers.mvc.exceptions.AnswerStorageErrorException;
 import com.zeroturnaround.rebelanswers.mvc.exceptions.QuestionStorageErrorException;
 import com.zeroturnaround.rebelanswers.mvc.model.AnswerData;
-import com.zeroturnaround.rebelanswers.mvc.taglib.JspUtils;
 import com.zeroturnaround.rebelanswers.security.SecurityTools;
 import com.zeroturnaround.rebelanswers.security.StandardAuthorities;
 import com.zeroturnaround.rebelanswers.service.AnswerService;
@@ -21,8 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
-import org.springframework.web.util.UriComponents;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
@@ -76,12 +73,7 @@ public class AnswerController {
         throw new AnswerStorageErrorException(answer);
       }
 
-      UriComponents uriComponents =
-          UriComponentsBuilder.newInstance()
-              .scheme("redirect").path("/question/{id}/{title}").build()
-              .expand(questionId, JspUtils.sanitizeForUrl(question.getTitle()))
-              .encode();
-      return new ModelAndView(uriComponents.toUriString());
+      return new ModelAndView(QuestionController.getQuestionReadUri(question));
     }
   }
 
@@ -108,12 +100,7 @@ public class AnswerController {
       throw new QuestionStorageErrorException(question);
     }
 
-    UriComponents uriComponents =
-        UriComponentsBuilder.newInstance()
-            .scheme("redirect").path("/question/{id}/{title}").build()
-            .expand(question.getId(), JspUtils.sanitizeForUrl(question.getTitle()))
-            .encode();
-    return uriComponents.toUriString();
+    return QuestionController.getQuestionReadUri(question);
   }
 
   /*
@@ -121,7 +108,6 @@ public class AnswerController {
    */
 
   public ModelAndView getReviseModelAndView(final Long answerId) throws NoSuchRequestHandlingMethodException {
-    final ModelAndView mav = new ModelAndView("answers/revise");
     Answer answer = answerService.getAnswerById(answerId);
     if (null == answer) {
       throw new NoSuchRequestHandlingMethodException("reviseAnswer", this.getClass());
@@ -131,6 +117,7 @@ public class AnswerController {
       throw new AccessDeniedException("Not the author of the answer");
     }
 
+    final ModelAndView mav = new ModelAndView("answers/revise");
     mav.addObject(answer);
     mav.addObject(answer.getQuestion());
 
@@ -160,12 +147,7 @@ public class AnswerController {
         throw new AnswerStorageErrorException(answer);
       }
 
-      UriComponents uriComponents =
-          UriComponentsBuilder.newInstance()
-              .scheme("redirect").path("/question/{id}/{title}").build()
-              .expand(answer.getQuestion().getId(), JspUtils.sanitizeForUrl(answer.getQuestion().getTitle()))
-              .encode();
-      return new ModelAndView(uriComponents.toUriString());
+      return new ModelAndView(QuestionController.getQuestionReadUri(answer.getQuestion()));
     }
   }
 }

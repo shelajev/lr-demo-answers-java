@@ -19,7 +19,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
-import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.annotation.security.RolesAllowed;
@@ -41,6 +40,13 @@ public class QuestionController {
     // CGLib AOP needs a protected default constructor
     this.service = null;
     this.tools = null;
+  }
+
+  public static String getQuestionReadUri(Question question) {
+    return UriComponentsBuilder.newInstance()
+        .scheme("redirect").path("/question/{id}/{title}").build()
+        .expand(question.getId(), JspUtils.sanitizeForUrl(question.getTitle()))
+        .encode().toUriString();
   }
 
   /*
@@ -134,11 +140,12 @@ public class QuestionController {
    */
 
   public ModelAndView getShowModelAndView(Long questionId) throws NoSuchRequestHandlingMethodException {
-    final ModelAndView mav = new ModelAndView("questions/read");
     Question question = service.getQuestionById(questionId);
     if (null == question) {
       throw new NoSuchRequestHandlingMethodException("showQuestion", this.getClass());
     }
+
+    final ModelAndView mav = new ModelAndView("questions/read");
     mav.addObject(question);
 
     boolean hasAnswered = false;
@@ -168,7 +175,6 @@ public class QuestionController {
    */
 
   public ModelAndView getReviseModelAndView(final Long questionId) throws NoSuchRequestHandlingMethodException {
-    final ModelAndView mav = new ModelAndView("questions/revise");
     Question question = service.getQuestionById(questionId);
     if (null == question) {
       throw new NoSuchRequestHandlingMethodException("reviseQuestion", this.getClass());
@@ -178,6 +184,7 @@ public class QuestionController {
       throw new AccessDeniedException("Not the author of the question");
     }
 
+    final ModelAndView mav = new ModelAndView("questions/revise");
     mav.addObject(question);
 
     return mav;
@@ -207,12 +214,7 @@ public class QuestionController {
         throw new QuestionStorageErrorException(question);
       }
 
-      UriComponents uriComponents =
-          UriComponentsBuilder.newInstance()
-              .scheme("redirect").path("/question/{id}/{title}").build()
-              .expand(questionId, JspUtils.sanitizeForUrl(question.getTitle()))
-              .encode();
-      return new ModelAndView(uriComponents.toUriString());
+      return new ModelAndView(getQuestionReadUri(question));
     }
   }
 
