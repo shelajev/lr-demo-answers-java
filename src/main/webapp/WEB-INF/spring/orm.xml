@@ -10,8 +10,14 @@
   <tx:annotation-driven/>
 
   <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-    <property name="location" value="classpath:jdbc.properties"/>
+    <property name="locations">
+      <list>
+        <value>classpath:jdbc.properties</value>
+        <value>classpath:jdbc-prod.properties</value>
+      </list>
+    </property>
     <property name="ignoreUnresolvablePlaceholders" value="true"/>
+    <property name="ignoreResourceNotFound" value="true"/>
   </bean>
 
   <bean id="dataSourceTarget" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">

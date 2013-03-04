@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+  <changeSet id="1" author="mirko">
+    <createTable tableName="users">
+      <column name="id" type="bigint" autoIncrement="true">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP"/>
+      <column name="email" type="varchar(255)"/>
+      <column name="name" type="varchar(255)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="password" type="char(60)"/>
+      <column name="facebook_id" type="varchar(128)"/>
+    </createTable>
+  </changeSet>
+
+  <changeSet id="2" author="mirko">
+    <createTable tableName="questions">
+      <column name="id" type="bigint" autoIncrement="true">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP"/>
+      <column name="title" type="varchar(150)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="content" type="text">
+        <constraints nullable="false"/>
+      </column>
+      <column name="user_id" type="bigint"/>
+      <column name="answer_id" type="bigint"/>
+    </createTable>
+    <addForeignKeyConstraint baseTableName="questions" baseColumnNames="user_id" constraintName="fk_questions_user"
+                             referencedTableName="users" referencedColumnNames="id" onDelete="SET NULL"/>
+  </changeSet>
+
+  <changeSet id="3" author="mirko">
+    <createTable tableName="answers">
+      <column name="id" type="bigint" autoIncrement="true">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP"/>
+      <column name="content" type="text">
+        <constraints nullable="false"/>
+      </column>
+      <column name="user_id" type="bigint"/>
+      <column name="question_id" type="bigint"/>
+    </createTable>
+    <addForeignKeyConstraint baseTableName="answers" baseColumnNames="user_id" constraintName="fk_answers_user"
+                             referencedTableName="users" referencedColumnNames="id" onDelete="SET NULL"/>
+    <addForeignKeyConstraint baseTableName="answers" baseColumnNames="question_id" constraintName="fk_answers_question"
+                             referencedTableName="questions" referencedColumnNames="id" onDelete="CASCADE"/>
+    <addForeignKeyConstraint baseTableName="questions" baseColumnNames="answer_id" constraintName="fk_questions_answer"
+                             referencedTableName="answers" referencedColumnNames="id" onDelete="SET NULL"/>
+  </changeSet>
+
+</databaseChangeLog>
