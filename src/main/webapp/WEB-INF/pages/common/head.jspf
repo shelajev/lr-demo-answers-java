@@ -1,6 +1,6 @@
 <meta charset="utf-8">
 <spring:url var="cssUrl" value="/css"/>
-<spring:url var="jssUrl" value="/js"/>
+<spring:url var="jsUrl" value="/js"/>
 <spring:url var="fontsUrl" value="/fonts"/>
 <link href="${cssUrl}/bootstrap-combined.min.css" rel="stylesheet">
 <link href="${cssUrl}/main.css" rel="stylesheet">
