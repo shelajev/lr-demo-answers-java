@@ -1,9 +1,26 @@
 <meta charset="utf-8">
-<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/css/bootstrap-combined.min.css" rel="stylesheet">
-<spring:url var="cssUrl" value="/css/main.css"/><link href="${cssUrl}" rel="stylesheet">
-<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-<spring:url var="markdownConverterUrl" value="/js/pagedown/Markdown.Converter.js"/><script type="text/javascript" src="${markdownConverterUrl}"></script>
-<spring:url var="markdownSanitizerUrl" value="/js/pagedown/Markdown.Sanitizer.js"/><script type="text/javascript" src="${markdownSanitizerUrl}"></script>
-<spring:url var="markdownEditorUrl" value="/js/pagedown/Markdown.Editor.js"/><script type="text/javascript" src="${markdownEditorUrl}"></script>
-<script type="text/javascript" src="//code.jquery.com/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/js/bootstrap.min.js"></script>
+<spring:url var="cssUrl" value="/css"/>
+<spring:url var="jssUrl" value="/js"/>
+<spring:url var="fontsUrl" value="/fonts"/>
+<link href="${cssUrl}/bootstrap-combined.min.css" rel="stylesheet">
+<link href="${cssUrl}/main.css" rel="stylesheet">
+<script type="text/javascript" src="${jsUrl}/pagedown/Markdown.Converter.js"></script>
+<script type="text/javascript" src="${jsUrl}/pagedown/Markdown.Sanitizer.js"></script>
+<script type="text/javascript" src="${jsUrl}/pagedown/Markdown.Editor.js"></script>
+<script type="text/javascript" src="${jsUrl}/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="${jsUrl}/bootstrap.min.js"></script>
+<script type="text/javascript" src="${jsUrl}/main.js"></script>
+<style type="text/css">
+  @font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Open Sans'), local('OpenSans'), url(${fontsUrl}/OpenSans.woff) format('woff');
+  }
+  @font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Open Sans Bold'), local('OpenSans-Bold'), url(${fontsUrl}/OpenSans-Bold.woff) format('woff');
+  }
+</style>
