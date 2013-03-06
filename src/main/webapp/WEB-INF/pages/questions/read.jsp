@@ -39,26 +39,42 @@
             <div class="question">
               <ra:markdownToHtml text="${question.content}"/>
             </div>
-          </div>
-          <div class="note">
-            Asked by <c:out value="${question.author.name}"/>&nbsp;
-            <ra:prettytime date="${question.created}"/>
-          </div>
-
-          <sec:authorize ifAllGranted="<%=StandardAuthorities.USER%>">
-            <sec:authorize access="principal.delegate.id eq #question.author.id">
-              <c:set var="isQuestionAuthor" value="${true}"/>
-            </sec:authorize>
-          </sec:authorize>
-
-          <c:if test="${isQuestionAuthor}">
-            <spring:url var="reviseUrl" value="/question/revise/{id}">
-              <spring:param name="id" value="${question.id}"/>
-            </spring:url>
             <div class="note">
-              <a href="${reviseUrl}">Revise</a></li>
+              Asked by <c:out value="${question.author.name}"/>&nbsp;
+              <ra:prettytime date="${question.created}"/>
             </div>
-          </c:if>
+
+            <sec:authorize ifAllGranted="<%=StandardAuthorities.USER%>">
+              <sec:authorize access="principal.delegate.id eq #question.author.id">
+                <c:set var="isQuestionAuthor" value="${true}"/>
+              </sec:authorize>
+            </sec:authorize>
+
+            <c:if test="${isQuestionAuthor}">
+              <spring:url var="reviseUrl" value="/question/revise/{id}">
+                <spring:param name="id" value="${question.id}"/>
+              </spring:url>
+              <div class="note">
+                <a href="${reviseUrl}">Revise</a></li>
+              </div>
+            </c:if>
+
+            <div class="comments">
+              <c:forEach var="comment" items="${question.comments}">
+                <%@ include file="../comments/display.jspf" %>
+              </c:forEach>
+            </div>
+
+            <div class="post-comment">
+              <sec:authorize ifAllGranted="<%=StandardAuthorities.USER%>">
+                <spring:url var="commentQuestionUrl" value="/question/comment/{id}">
+                  <spring:param name="id" value="${question.id}"/>
+                </spring:url>
+                <a href="${commentQuestionUrl}" class="add-comment btn">Add comment</a>
+              </sec:authorize>
+            </div>
+
+          </div>
         </div>
 
         <hr/>
@@ -85,7 +101,7 @@
 
             <div class="span11">
               <c:if test="${question.acceptedAnswer eq answer}">
-                <span class="label label-success">Accepted answer</span>
+                <p class="label label-success">Accepted answer</p>
               </c:if>
 
               <div>
@@ -114,9 +130,27 @@
                   </sec:authorize>
                 </sec:authorize>
               </div>
+
+              <div class="comments">
+                <c:forEach var="comment" items="${answer.comments}">
+                  <%@ include file="../comments/display.jspf" %>
+                </c:forEach>
+              </div>
+
+              <div class="post-comment">
+                <sec:authorize ifAllGranted="<%=StandardAuthorities.USER%>">
+                  <spring:url var="commentAnswerUrl" value="/answer/comment/{id}">
+                    <spring:param name="id" value="${answer.id}"/>
+                  </spring:url>
+                  <a href="${commentAnswerUrl}" class="add-comment btn">Add comment</a>
+                </sec:authorize>
+              </div>
+
             </div>
 
           </div>
+
+          <hr/>
 
         </c:forEach>
 
@@ -143,7 +177,16 @@
             </form:form>
 
             <%@ include file="../common/markdown.jspf" %>
+
           </c:if>
+
+          <script id="comment-template" type="text/template">
+            <form class="comment-form">
+              <textarea class="input-xxlarge"></textarea><br/>
+              <button type="submit" class="btn">Post comment</button>
+            </form>
+          </script>
+
         </sec:authorize>
 
       </div>

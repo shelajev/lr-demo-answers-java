@@ -33,6 +33,8 @@ public class Question implements Serializable {
   private Integer voteCount;
   @Transient
   private Integer autenticatedUserVote;
+  @Transient
+  private List<Comment> comments;
 
   public Question() {
     setAnswers(new ArrayList<Answer>(0));
@@ -146,6 +148,14 @@ public class Question implements Serializable {
 
   public void setAutenticatedUserVote(Integer autenticatedUserVote) {
     this.autenticatedUserVote = autenticatedUserVote;
+  }
+
+  public List<Comment> getComments() {
+    return comments;
+  }
+
+  public void setComments(List<Comment> comments) {
+    this.comments = comments;
   }
 
   @Override

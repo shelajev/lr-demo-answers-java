@@ -16,6 +16,7 @@
     <constructor-arg ref="daoTools"/>
     <constructor-arg ref="securityTools"/>
     <constructor-arg ref="voteDao"/>
+    <constructor-arg ref="commentDao"/>
   </bean>
 
   <bean id="answerDao" class="com.zeroturnaround.rebelanswers.dao.jpa.AnswerDaoImpl">
@@ -26,4 +27,7 @@
     <constructor-arg ref="daoTools"/>
   </bean>
 
+  <bean id="commentDao" class="com.zeroturnaround.rebelanswers.dao.jpa.CommentDaoImpl">
+    <constructor-arg ref="daoTools"/>
+  </bean>
 </beans>

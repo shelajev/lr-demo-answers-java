@@ -16,6 +16,16 @@
 
         <h1><c:out value="${question.title}"/></h1>
 
+        <div class="row question">
+          <div class="question">
+            <ra:markdownToHtml text="${question.content}"/>
+          </div>
+          <div class="note">
+            Asked by <c:out value="${question.author.name}"/>&nbsp;
+            <ra:prettytime date="${question.created}"/>
+          </div>
+        </div>
+
         <legend>Answer</legend>
 
         <form:form modelAttribute="answerData" cssClass="form form-horizontal">

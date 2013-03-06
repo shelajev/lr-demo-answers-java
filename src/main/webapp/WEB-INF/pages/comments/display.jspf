@@ -1,0 +1,10 @@
+<div>
+  <div class="post">
+    <ra:markdownToHtml text="${comment.content}"/>
+  </div>
+  <div class="note">
+    Commented by <c:out value="${comment.author.name}"/>&nbsp;
+    <ra:prettytime date="${comment.created}"/>
+  </div>
+</div>
+<hr/>

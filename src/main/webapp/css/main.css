@@ -41,6 +41,7 @@ h1 + .nav-pills {
 .content {
   box-shadow: 0 0 0 1em white, 0 -0.5em 3em #AAA;
   position: relative;
+  margin-bottom: 1em;
 }
 
 .content > .row {

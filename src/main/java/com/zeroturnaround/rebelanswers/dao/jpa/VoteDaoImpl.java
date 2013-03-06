@@ -18,13 +18,13 @@ public class VoteDaoImpl implements VoteDao {
   }
 
   public Vote findForUser(final User user, final Question question) {
-    List<Vote> votes = daoTools.findByAttributes(Vote.class, "author", user, "parentType", Vote.ParentType.QUESTION, "parentId", question.getId());
+    List<Vote> votes = daoTools.findByAttributes(Vote.class, "created", DaoTools.SortOrder.DESC, "author", user, "parentType", Vote.ParentType.QUESTION, "parentId", question.getId());
     if (votes == null || votes.isEmpty()) return null;
     return votes.get(0);
   }
 
   public Vote findForUser(final User user, final Answer answer) {
-    List<Vote> votes = daoTools.findByAttributes(Vote.class, "author", user, "parentType", Vote.ParentType.ANSWER, "parentId", answer.getId());
+    List<Vote> votes = daoTools.findByAttributes(Vote.class, "created", DaoTools.SortOrder.DESC, "author", user, "parentType", Vote.ParentType.ANSWER, "parentId", answer.getId());
     if (votes == null || votes.isEmpty()) return null;
     return votes.get(0);
   }

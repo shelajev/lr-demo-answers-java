@@ -25,6 +25,10 @@
     <constructor-arg ref="voteDao"/>
   </bean>
 
+  <bean id="commentService" class="com.zeroturnaround.rebelanswers.service.impl.DaoCommentService">
+    <constructor-arg ref="commentDao"/>
+  </bean>
+
   <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
     <property name="locations">
       <list>

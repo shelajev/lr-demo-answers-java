@@ -39,8 +39,10 @@ public class DaoTools {
         .setParameter(1, attributeValue).getResultList());
   }
 
-  public <T> List<T> findByAttributes(final Class<T> entityClass, final Object... attributeNamesValues) {
+  public <T> List<T> findByAttributes(final Class<T> entityClass, final String orderByAttributeName,
+                                      final SortOrder sortOrder, final Object... attributeNamesValues) {
     if (null == entityClass) throw new IllegalArgumentException("entityClass can't be null");
+    if (null == orderByAttributeName) throw new IllegalArgumentException("orderByAttributeName can't be null");
     if (null == attributeNamesValues) throw new IllegalArgumentException("attributeNamesValues can't be null");
     if (attributeNamesValues.length == 0) throw new IllegalArgumentException("attributeNamesValues can't be empty");
     if (attributeNamesValues.length % 2 != 0) throw new IllegalArgumentException("attributeNamesValues should be a series of name value pairs");
@@ -57,7 +59,7 @@ public class DaoTools {
     }
 
     Query query = entityManager.createQuery(
-        "select e from " + entityClass.getSimpleName() + " e where " + attributes);
+        "select e from " + entityClass.getSimpleName() + " e where " + attributes + " order by e." + orderByAttributeName + " " + sortOrder.name());
     for (int i = 1; i < attributeNamesValues.length; i += 2) {
       query.setParameter(i / 2 + 1, attributeNamesValues[i]);
     }

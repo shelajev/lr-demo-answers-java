@@ -30,6 +30,7 @@ $(document).ready(function () {
     var el = $(this);
     var a = el.parent().find('.add-comment');
     $.ajax({
+      method: 'post',
       url: a.attr('href'),
       data: {
         'comment': el.find('textarea').val()
