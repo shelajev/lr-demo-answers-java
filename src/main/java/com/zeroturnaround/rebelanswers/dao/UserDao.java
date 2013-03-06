@@ -11,4 +11,6 @@ public interface UserDao {
   public User findByEmail(String email);
 
   public User persistOrMerge(User user);
+
+  public User findById(Long userId);
 }

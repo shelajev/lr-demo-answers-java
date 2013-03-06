@@ -33,6 +33,11 @@ public class DaoUserService implements UserService, UserDetailsService {
     return userDao.findByEmail(email);
   }
 
+  @Transactional(readOnly = true)
+  public User findById(final Long userId) {
+    return userDao.findById(userId);
+  }
+
   @Transactional(readOnly = false)
   public boolean store(final User user) {
     if (null == user) {

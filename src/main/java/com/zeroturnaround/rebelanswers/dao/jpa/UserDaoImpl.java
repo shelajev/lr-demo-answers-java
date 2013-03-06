@@ -32,6 +32,10 @@ public class UserDaoImpl implements UserDao {
     return list.get(0);
   }
 
+  public User findById(Long userId) {
+    return daoTools.findById(User.class, userId);
+  }
+
   public User persistOrMerge(final User user) {
     if (null == user) throw new IllegalArgumentException("user can't be null");
 

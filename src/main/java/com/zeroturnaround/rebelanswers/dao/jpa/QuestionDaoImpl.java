@@ -5,6 +5,7 @@ import com.zeroturnaround.rebelanswers.dao.QuestionDao;
 import com.zeroturnaround.rebelanswers.dao.VoteDao;
 import com.zeroturnaround.rebelanswers.domain.Answer;
 import com.zeroturnaround.rebelanswers.domain.Question;
+import com.zeroturnaround.rebelanswers.domain.User;
 import com.zeroturnaround.rebelanswers.domain.Vote;
 import com.zeroturnaround.rebelanswers.security.SecurityTools;
 import org.springframework.data.domain.Page;
@@ -90,6 +91,10 @@ public class QuestionDaoImpl implements QuestionDao {
     long total = daoTools.countSearchByAttribute(Question.class, "title", search);
     List<Question> content = daoTools.searchByAttribute(Question.class, "title", search, "created", DaoTools.SortOrder.DESC, pageable.getOffset(), pageable.getPageSize());
     return new PageImpl<Question>(content, pageable, total);
+  }
+
+  public List<Question> getQuestionsForAuthor(User user) {
+    return daoTools.findByAttributes(Question.class, "created", DaoTools.SortOrder.DESC, "author", user);
   }
 
   public Question persistOrMerge(final Question question) {

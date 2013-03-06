@@ -13,7 +13,11 @@
         <li><a href="${loginUrl}">Log in</a></li>
       </sec:authorize>
       <sec:authorize ifAnyGranted="<%=StandardAuthorities.USER%>">
-        <li class="disabled"><a><ra:authUserName/></a></li>
+        <spring:url var="profileUrl" value="/profile/{id}/{name}/questions">
+          <spring:param name="id" value=""/>
+          <spring:param name="name" value=""/>
+        </spring:url>
+        <li><a href="${profileUrl}"><ra:authUserName/></a></li>
         <spring:url var="logoutUrl" value="/logout"/>
         <li><a href="${logoutUrl}">Log out</a></li>
       </sec:authorize>

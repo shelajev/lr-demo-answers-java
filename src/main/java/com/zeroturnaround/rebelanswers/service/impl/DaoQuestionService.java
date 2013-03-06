@@ -2,10 +2,13 @@ package com.zeroturnaround.rebelanswers.service.impl;
 
 import com.zeroturnaround.rebelanswers.dao.QuestionDao;
 import com.zeroturnaround.rebelanswers.domain.Question;
+import com.zeroturnaround.rebelanswers.domain.User;
 import com.zeroturnaround.rebelanswers.service.QuestionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 public class DaoQuestionService implements QuestionService {
 
@@ -43,6 +46,11 @@ public class DaoQuestionService implements QuestionService {
   @Transactional(readOnly = true)
   public Page<Question> getUnansweredQuestionsWithoutAnswers(Pageable pageable) {
     return questionDao.getUnansweredQuestionsWithoutAnswers(pageable);
+  }
+
+  @Transactional(readOnly = true)
+  public List<Question> getQuestionsForAuthor(User user) {
+    return questionDao.getQuestionsForAuthor(user);
   }
 
   @Transactional(readOnly = true)
