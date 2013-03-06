@@ -23,6 +23,7 @@
     <commons-validator.version>1.4.0</commons-validator.version>
     <hibernate-entitymanager.version>4.1.10.Final</hibernate-entitymanager.version>
     <hibernate-validator.version>4.3.1.Final</hibernate-validator.version>
+    <jackson-core.version>2.1.4</jackson-core.version>
     <javax.servlet-api.version>3.0.1</javax.servlet-api.version>
     <javax.servlet.jsp-api.version>2.2.1</javax.servlet.jsp-api.version>
     <jsr250-api.version>1.0</jsr250-api.version>
@@ -204,6 +205,17 @@
       <artifactId>pegdown</artifactId>
       <version>${pegdown.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>${jackson-core.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${jackson-core.version}</version>
+    </dependency>
+
   </dependencies>
 
   <build>

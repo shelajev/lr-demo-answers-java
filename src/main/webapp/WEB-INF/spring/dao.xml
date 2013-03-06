@@ -14,9 +14,15 @@
 
   <bean id="questionDao" class="com.zeroturnaround.rebelanswers.dao.jpa.QuestionDaoImpl">
     <constructor-arg ref="daoTools"/>
+    <constructor-arg ref="securityTools"/>
+    <constructor-arg ref="voteDao"/>
   </bean>
 
   <bean id="answerDao" class="com.zeroturnaround.rebelanswers.dao.jpa.AnswerDaoImpl">
+    <constructor-arg ref="daoTools"/>
+  </bean>
+
+  <bean id="voteDao" class="com.zeroturnaround.rebelanswers.dao.jpa.VoteDaoImpl">
     <constructor-arg ref="daoTools"/>
   </bean>
 

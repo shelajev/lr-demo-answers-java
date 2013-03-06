@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+  <changeSet id="4" author="mirko">
+    <createTable tableName="comments">
+      <column name="id" type="bigint" autoIncrement="true">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP"/>
+      <column name="content" type="text">
+        <constraints nullable="false"/>
+      </column>
+      <column name="user_id" type="bigint"/>
+      <column name="parent_id" type="bigint">
+        <constraints nullable="false"/>
+      </column>
+      <column name="parent_type" type="tinyint">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+    <addForeignKeyConstraint baseTableName="comments" baseColumnNames="user_id" constraintName="fk_comments_user"
+                             referencedTableName="users" referencedColumnNames="id" onDelete="SET NULL"/>
+  </changeSet>
+
+  <changeSet id="5" author="mirko">
+    <createTable tableName="votes">
+      <column name="id" type="bigint" autoIncrement="true">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="created_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP"/>
+      <column name="type" type="tinyint">
+        <constraints nullable="false"/>
+      </column>
+      <column name="user_id" type="bigint"/>
+      <column name="parent_id" type="bigint">
+        <constraints nullable="false"/>
+      </column>
+      <column name="parent_type" type="tinyint">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+    <addForeignKeyConstraint baseTableName="votes" baseColumnNames="user_id" constraintName="fk_votes_user"
+                             referencedTableName="users" referencedColumnNames="id" onDelete="CASCADE"/>
+  </changeSet>
+
+</databaseChangeLog>

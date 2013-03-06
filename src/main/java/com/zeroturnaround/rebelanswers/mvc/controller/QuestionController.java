@@ -140,7 +140,7 @@ public class QuestionController {
    */
 
   public ModelAndView getShowModelAndView(Long questionId) throws NoSuchRequestHandlingMethodException {
-    Question question = service.getQuestionById(questionId);
+    Question question = service.getFullQuestionById(questionId);
     if (null == question) {
       throw new NoSuchRequestHandlingMethodException("showQuestion", this.getClass());
     }

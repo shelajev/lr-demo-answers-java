@@ -10,6 +10,8 @@ public interface QuestionDao {
 
   public Question getQuestionById(Long id);
 
+  public Question getFullQuestionById(Long id);
+
   public Page<Question> getAllQuestions(Pageable pageable);
 
   public Page<Question> getQuestionsWithoutAnswers(Pageable pageable);

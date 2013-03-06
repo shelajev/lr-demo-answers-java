@@ -21,6 +21,11 @@ public class DaoQuestionService implements QuestionService {
   }
 
   @Transactional(readOnly = true)
+  public Question getFullQuestionById(Long id) {
+    return questionDao.getFullQuestionById(id);
+  }
+
+  @Transactional(readOnly = true)
   public Page<Question> getAllQuestions(Pageable pageable) {
     return questionDao.getAllQuestions(pageable);
   }

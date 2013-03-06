@@ -102,6 +102,9 @@
     <orderEntry type="library" name="Maven: org.ow2.asm:asm-tree:4.0" level="project" />
     <orderEntry type="library" name="Maven: org.ow2.asm:asm-analysis:4.0" level="project" />
     <orderEntry type="library" name="Maven: org.ow2.asm:asm-util:4.0" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.1.4" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.1.4" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.1.4" level="project" />
   </component>
 </module>
 

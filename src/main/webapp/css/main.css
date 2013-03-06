@@ -5,6 +5,7 @@ body {
 a, a:active {
   color: #82AC2A;
 }
+
 a:hover, a:focus {
   color: #92C12F;
 }
@@ -13,6 +14,7 @@ h1 {
   font-size: 2.5em;
   padding: 0.5em 0;
 }
+
 h2 {
   font-size: 1.5em;
 }
@@ -20,6 +22,20 @@ h2 {
 h1 + .nav-pills {
   float: right;
   margin-top: -4.5em;
+}
+
+.comments {
+  background: #FAFAFA;
+  font-size: 90%;
+  margin: 1em 0;
+}
+
+.comments > div {
+  padding: 1em;
+}
+
+.comments > div + hr {
+  margin: 0;
 }
 
 .content {
@@ -42,19 +58,21 @@ h1 + .nav-pills {
   padding: 1.5em 0;
 }
 
-.counters :first-line{
+.counters :first-line {
   font-size: 150%;
 }
 
 .counters > p {
   display: inline-block;
+  width: 48%;
 }
 
 .navbar {
   background: #323232;
   position: absolute;
   top: 0;
-  left: 0; right: 0;
+  left: 0;
+  right: 0;
   z-index: 2;
 }
 
@@ -100,6 +118,30 @@ h1 + .nav-pills {
 
 .row > [class*=span]:first-child {
   margin-left: 0;
+}
+
+.voting {
+  text-align: center;
+}
+
+.voting a {
+  color: white;
+  text-decoration: none !important;
+}
+
+.voting > span {
+  display: inline-block;
+  font-size: 150%;
+}
+
+.voting .votes {
+  display: block;
+  margin: 0.3em;
+}
+
+.voting .label {
+  line-height: 0.8em;
+  width: 0.8em;
 }
 
 .zebra.row {

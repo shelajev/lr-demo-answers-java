@@ -1,5 +1,7 @@
 package com.zeroturnaround.rebelanswers.domain;
 
+import org.hibernate.annotations.Formula;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -20,6 +22,10 @@ public class Answer implements Serializable {
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "question_id")
   private Question question;
+  @Formula("(select sum(v.type) from votes v where v.parent_type = 0 and v.parent_id = id)")
+  private Integer voteCount;
+  @Transient
+  private Integer autenticatedUserVote;
 
   public Answer() {
   }
@@ -82,6 +88,25 @@ public class Answer implements Serializable {
   public Answer question(Question question) {
     setQuestion(question);
     return this;
+  }
+
+  public Integer getVoteCount() {
+    if (null == voteCount) {
+      return 0;
+    }
+    return voteCount;
+  }
+
+  public void setVoteCount(Integer voteCount) {
+    this.voteCount = voteCount;
+  }
+
+  public Integer getAutenticatedUserVote() {
+    return autenticatedUserVote;
+  }
+
+  public void setAutenticatedUserVote(Integer autenticatedUserVote) {
+    this.autenticatedUserVote = autenticatedUserVote;
   }
 
   @Override

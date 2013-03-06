@@ -17,8 +17,28 @@
         <h3><c:out value="${question.title}"/></h3>
 
         <div class="row question">
-          <div class="question">
-            <ra:markdownToHtml text="${question.content}"/>
+          <div class="span1 voting">
+            <sec:authorize ifAllGranted="<%=StandardAuthorities.USER%>">
+              <spring:url var="voteQuestionUp" value="/question/voteup/{id}">
+                <spring:param name="id" value="${question.id}"/>
+              </spring:url>
+              <c:set var="userVotedQuestionUp" value="${question.autenticatedUserVote eq 1 ? ' label-success' : ''}"/>
+              <span class="label vote-up${userVotedQuestionUp}"><a href="${voteQuestionUp}">+</a></span>
+            </sec:authorize>
+            <span class="votes"><c:out value="${question.voteCount}"/></span>
+            <sec:authorize ifAllGranted="<%=StandardAuthorities.USER%>">
+              <spring:url var="voteQuestionDown" value="/question/votedown/{id}">
+                <spring:param name="id" value="${question.id}"/>
+              </spring:url>
+              <c:set var="userVotedQuestionDown" value="${question.autenticatedUserVote eq -1 ? ' label-inverse' : ''}"/>
+              <span class="label vote-down${userVotedQuestionDown}"><a href="${voteQuestionDown}">-</a></span>
+            </sec:authorize>
+          </div>
+
+          <div class="span11">
+            <div class="question">
+              <ra:markdownToHtml text="${question.content}"/>
+            </div>
           </div>
           <div class="note">
             Asked by <c:out value="${question.author.name}"/>&nbsp;
@@ -43,36 +63,55 @@
 
         <c:forEach var="answer" items="${question.answers}">
           <div class="row answer">
-
-            <c:if test="${question.acceptedAnswer eq answer}">
-              <span class="label label-success">Accepted answer</span>
-            </c:if>
-
-            <div>
-              <ra:markdownToHtml text="${answer.content}"/>
-            </div>
-
-            <div class="note">
-              Answered by <c:out value="${answer.author.name}"/>&nbsp;
-              <ra:prettytime date="${answer.created}"/>
-            </div>
-
-            <div class="note">
-              <c:if test="${isQuestionAuthor and question.acceptedAnswer ne answer}">
-                <spring:url var="acceptUrl" value="/answer/accept/{id}">
+            <div class="span1 voting">
+              <sec:authorize ifAllGranted="<%=StandardAuthorities.USER%>">
+                <spring:url var="voteAnswerUp" value="/answer/voteup/{id}">
                   <spring:param name="id" value="${answer.id}"/>
                 </spring:url>
-                <a href="${acceptUrl}" class="btn">Accept as answer</a>
+                <c:set var="userVotedAnswerUp" value="${answer.autenticatedUserVote eq 1 ? ' label-success' : ''}"/>
+                <span class="label vote-up${userVotedAnswerUp}"><a href="${voteAnswerUp}">+</a></span>
+              </sec:authorize>
+              <span class="votes"><c:out value="${answer.voteCount}"/></span>
+              <sec:authorize ifAllGranted="<%=StandardAuthorities.USER%>">
+                <spring:url var="voteAnswerDown" value="/answer/votedown/{id}">
+                  <spring:param name="id" value="${answer.id}"/>
+                </spring:url>
+                <c:set var="userVotedAnswerDown" value="${answer.autenticatedUserVote eq -1 ? ' label-inverse' : ''}"/>
+                <span class="label vote-down${userVotedAnswerDown}"><a href="${voteAnswerDown}">-</a></span>
+              </sec:authorize>
+            </div>
+
+            <div class="span11">
+              <c:if test="${question.acceptedAnswer eq answer}">
+                <span class="label label-success">Accepted answer</span>
               </c:if>
 
-              <sec:authorize ifAllGranted="<%=StandardAuthorities.USER%>">
-                <sec:authorize access="principal.delegate.id eq #answer.author.id">
-                  <spring:url var="reviseAnswerUrl" value="/answer/revise/{id}">
+              <div>
+                <ra:markdownToHtml text="${answer.content}"/>
+              </div>
+
+              <div class="note">
+                Answered by <c:out value="${answer.author.name}"/>&nbsp;
+                <ra:prettytime date="${answer.created}"/>
+              </div>
+
+              <div class="note">
+                <c:if test="${isQuestionAuthor and question.acceptedAnswer ne answer}">
+                  <spring:url var="acceptUrl" value="/answer/accept/{id}">
                     <spring:param name="id" value="${answer.id}"/>
                   </spring:url>
-                  <a href="${reviseAnswerUrl}" class="btn">Revise</a>
+                  <a href="${acceptUrl}" class="btn">Accept as answer</a>
+                </c:if>
+
+                <sec:authorize ifAllGranted="<%=StandardAuthorities.USER%>">
+                  <sec:authorize access="principal.delegate.id eq #answer.author.id">
+                    <spring:url var="reviseAnswerUrl" value="/answer/revise/{id}">
+                      <spring:param name="id" value="${answer.id}"/>
+                    </spring:url>
+                    <a href="${reviseAnswerUrl}" class="btn">Revise</a>
+                  </sec:authorize>
                 </sec:authorize>
-              </sec:authorize>
+              </div>
             </div>
 
           </div>

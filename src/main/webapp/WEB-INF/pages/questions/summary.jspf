@@ -1,11 +1,15 @@
 <div class="zebra row">
-  <div class="span1 counters">
-    <p class="text-center">
+  <div class="span2 counters">
+    <p class="text-center counter-answers">
       <c:out value="${question.answers.size()}"/><br/>
       answer(s)
     </p>
+    <p class="text-center counter-votes">
+      <c:out value="${question.voteCount}"/><br/>
+      vote(s)
+    </p>
   </div>
-  <div class="span11">
+  <div class="span10">
     <spring:url var="questionUrl" value="/question/{id}/{title}">
       <spring:param name="id" value="${question.id}"/>
       <spring:param name="title" value="${ra:sanitizeForUrl(question.title)}"/>

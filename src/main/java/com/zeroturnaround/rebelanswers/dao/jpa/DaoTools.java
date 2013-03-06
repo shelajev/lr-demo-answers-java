@@ -39,6 +39,31 @@ public class DaoTools {
         .setParameter(1, attributeValue).getResultList());
   }
 
+  public <T> List<T> findByAttributes(final Class<T> entityClass, final Object... attributeNamesValues) {
+    if (null == entityClass) throw new IllegalArgumentException("entityClass can't be null");
+    if (null == attributeNamesValues) throw new IllegalArgumentException("attributeNamesValues can't be null");
+    if (attributeNamesValues.length == 0) throw new IllegalArgumentException("attributeNamesValues can't be empty");
+    if (attributeNamesValues.length % 2 != 0) throw new IllegalArgumentException("attributeNamesValues should be a series of name value pairs");
+
+    StringBuilder attributes = new StringBuilder();
+    for (int i = 0; i < attributeNamesValues.length; i += 2) {
+      if (attributes.length() > 0) {
+        attributes.append(" and ");
+      }
+      attributes.append("e.");
+      attributes.append(attributeNamesValues[i]);
+      attributes.append(" = ?");
+      attributes.append(i / 2 + 1);
+    }
+
+    Query query = entityManager.createQuery(
+        "select e from " + entityClass.getSimpleName() + " e where " + attributes);
+    for (int i = 1; i < attributeNamesValues.length; i += 2) {
+      query.setParameter(i / 2 + 1, attributeNamesValues[i]);
+    }
+    return castResultList(query.getResultList());
+  }
+
   public <T> List<T> findByPossibleAttributes(final Class<T> entityClass, final String[] attributeNames, final Object attributeValue) {
     if (null == entityClass) throw new IllegalArgumentException("entityClass can't be null");
     if (null == attributeNames) throw new IllegalArgumentException("attributeNames can't be null");
@@ -137,6 +162,20 @@ public class DaoTools {
 
     return (Long) entityManager.createQuery(
         "select count(e) from " + entityClass.getSimpleName() + " e " + filter).getSingleResult();
+  }
+
+  public boolean delete(final Object entity) {
+    if (null == entity) throw new IllegalArgumentException("entity can't be null");
+
+    entityManager.remove(entity);
+    return true;
+  }
+
+  public <T> boolean deleteById(final Class<T> entityClass, final Object id) {
+    if (null == entityClass) throw new IllegalArgumentException("entityClass can't be null");
+    if (null == id) throw new IllegalArgumentException("id can't be null");
+
+    return delete(findById(entityClass, id));
   }
 
   public enum SortOrder {
