@@ -61,6 +61,8 @@
           </c:if>
         </div>
 
+        <hr/>
+
         <c:forEach var="answer" items="${question.answers}">
           <div class="row answer">
             <div class="span1 voting">
