@@ -56,7 +56,7 @@ public class AnswerController {
   @RequestMapping(value = "/question/answer/{questionId}", method = RequestMethod.POST)
   public ModelAndView answerQuestion(@PathVariable final Long questionId, @ModelAttribute @Valid final AnswerData answerData, final BindingResult result) throws NoSuchRequestHandlingMethodException {
     final ModelAndView mav = questionController.getShowModelAndView(questionId);
-    if ((boolean) mav.getModelMap().get("hasAnswered")) {
+    if ((Boolean) mav.getModelMap().get("hasAnswered")) {
       throw new AccessDeniedException("Already answered this question");
     }
 
