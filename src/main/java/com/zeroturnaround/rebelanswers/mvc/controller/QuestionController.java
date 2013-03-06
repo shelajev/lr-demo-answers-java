@@ -148,7 +148,7 @@ public class QuestionController {
     final ModelAndView mav = new ModelAndView("questions/read");
     mav.addObject(question);
 
-    boolean hasAnswered = false;
+    Boolean hasAnswered = false;
     User user = tools.getAuthenticatedUser();
     if (user != null) {
       for (Answer answer : question.getAnswers()) {

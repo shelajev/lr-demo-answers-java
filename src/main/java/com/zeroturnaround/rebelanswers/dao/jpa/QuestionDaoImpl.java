@@ -51,34 +51,34 @@ public class QuestionDaoImpl implements QuestionDao {
   public Page<Question> getAllQuestions(Pageable pageable) {
     List<Question> content = daoTools.getAllEntities(Question.class, "created", DaoTools.SortOrder.DESC, pageable.getOffset(), pageable.getPageSize());
     long total = daoTools.countEntities(Question.class);
-    return new PageImpl<>(content, pageable, total);
+    return new PageImpl<Question>(content, pageable, total);
   }
 
   public Page<Question> getQuestionsWithoutAnswers(Pageable pageable) {
     String filter = "where size(answers) = 0";
     List<Question> content = daoTools.getFilteredEntities(Question.class, "created", DaoTools.SortOrder.DESC, filter, pageable.getOffset(), pageable.getPageSize());
     long total = daoTools.countFilteredEntities(Question.class, filter);
-    return new PageImpl<>(content, pageable, total);
+    return new PageImpl<Question>(content, pageable, total);
   }
 
   public Page<Question> getUnansweredQuestions(Pageable pageable) {
     String filter = "where acceptedAnswer is null";
     List<Question> content = daoTools.getFilteredEntities(Question.class, "created", DaoTools.SortOrder.DESC, filter, pageable.getOffset(), pageable.getPageSize());
     long total = daoTools.countFilteredEntities(Question.class, filter);
-    return new PageImpl<>(content, pageable, total);
+    return new PageImpl<Question>(content, pageable, total);
   }
 
   public Page<Question> getUnansweredQuestionsWithoutAnswers(Pageable pageable) {
     String filter = "where acceptedAnswer is null and size(answers) = 0";
     List<Question> content = daoTools.getFilteredEntities(Question.class, "created", DaoTools.SortOrder.DESC, filter, pageable.getOffset(), pageable.getPageSize());
     long total = daoTools.countFilteredEntities(Question.class, filter);
-    return new PageImpl<>(content, pageable, total);
+    return new PageImpl<Question>(content, pageable, total);
   }
 
   public Page<Question> searchQuestions(String search, Pageable pageable) {
     long total = daoTools.countSearchByAttribute(Question.class, "title", search);
     List<Question> content = daoTools.searchByAttribute(Question.class, "title", search, "created", DaoTools.SortOrder.DESC, pageable.getOffset(), pageable.getPageSize());
-    return new PageImpl<>(content, pageable, total);
+    return new PageImpl<Question>(content, pageable, total);
   }
 
   public Question persistOrMerge(final Question question) {
