@@ -6,7 +6,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 public class SecurityTools {
 
-  public User getAuthenticatedUser() {
+  private SecurityTools() {
+  }
+
+  public static User getAuthenticatedUser() {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     if (auth != null) {
       Object principal = auth.getPrincipal();
