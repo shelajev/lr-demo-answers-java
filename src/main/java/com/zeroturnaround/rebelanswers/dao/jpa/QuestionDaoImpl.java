@@ -88,7 +88,7 @@ public class QuestionDaoImpl implements QuestionDao {
 
   public Page<Question> searchQuestions(String search, Pageable pageable) {
     long total = daoTools.countSearchByAttribute(Question.class, "title", search);
-    List<Question> content = daoTools.searchByAttribute(Question.class, "title", search, "created", DaoTools.SortOrder.DESC, pageable.getOffset(), pageable.getPageSize());
+    List<Question> content = daoTools.searchByAttribute(Question.class, "created", DaoTools.SortOrder.DESC, "title", search, pageable.getOffset(), pageable.getPageSize());
     return new PageImpl<Question>(content, pageable, total);
   }
 
