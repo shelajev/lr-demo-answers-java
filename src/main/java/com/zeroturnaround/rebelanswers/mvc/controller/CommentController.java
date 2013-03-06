@@ -29,17 +29,15 @@ public class CommentController {
 
   private final QuestionService questionService;
   private final CommentService commentService;
-  private final SecurityTools tools;
   private final ThreadSafePegDownProcessor pegDown;
   private final PrettyTime prettyTime;
   private final AnswerDao answerService;
 
   @Autowired
-  public CommentController(final QuestionService questionService, final CommentService commentService, final AnswerDao answerService, final SecurityTools tools) {
+  public CommentController(final QuestionService questionService, final CommentService commentService, final AnswerDao answerService) {
     this.questionService = questionService;
     this.commentService = commentService;
     this.answerService = answerService;
-    this.tools = tools;
     this.pegDown = new ThreadSafePegDownProcessor();
     this.prettyTime = new PrettyTime();
   }
@@ -49,7 +47,6 @@ public class CommentController {
     this.questionService = null;
     this.commentService = null;
     this.answerService = null;
-    this.tools = null;
     this.pegDown = null;
     prettyTime = null;
   }
@@ -78,7 +75,7 @@ public class CommentController {
     if (null == comment || comment.trim().isEmpty()) {
       return Collections.emptyMap();
     }
-    User user = tools.getAuthenticatedUser();
+    User user = SecurityTools.getAuthenticatedUser();
     Comment new_comment = new Comment()
         .parentType(parent_type)
         .parentId(parent_id)
