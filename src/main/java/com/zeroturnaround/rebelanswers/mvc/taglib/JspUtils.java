@@ -26,6 +26,6 @@ public final class JspUtils {
     Matcher mnw = nonword.matcher(result);
     result = mnw.replaceAll("");
 
-    return result;
+    return result.toLowerCase();
   }
 }
