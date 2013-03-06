@@ -2,11 +2,8 @@ package com.zeroturnaround.rebelanswers.mvc.taglib;
 
 import com.zeroturnaround.rebelanswers.domain.User;
 import com.zeroturnaround.rebelanswers.security.UserDetailsWrapper;
-import com.zeroturnaround.rebelanswers.service.UserService;
-import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
@@ -18,14 +15,10 @@ public class AuthenticatedUserNameTag extends TagSupport {
     try {
       Authentication auth = SecurityContextHolder.getContext().getAuthentication();
       if (auth != null) {
-        ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(pageContext.getServletContext());
-        UserService userService = ctx.getBean(UserService.class);
-        if (userService != null) {
-          UserDetailsWrapper principal = (UserDetailsWrapper) auth.getPrincipal();
-          User user = principal.getDelegate();
-          if (user != null) {
-            pageContext.getOut().print(user.getName());
-          }
+        UserDetailsWrapper principal = (UserDetailsWrapper) auth.getPrincipal();
+        User user = principal.getDelegate();
+        if (user != null) {
+          pageContext.getOut().print(user.getName());
         }
       }
     }
