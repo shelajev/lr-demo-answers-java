@@ -28,18 +28,15 @@ import javax.validation.Valid;
 public class QuestionController {
 
   private final QuestionService service;
-  private final SecurityTools tools;
 
   @Autowired
-  public QuestionController(final QuestionService service, final SecurityTools tools) {
+  public QuestionController(final QuestionService service) {
     this.service = service;
-    this.tools = tools;
   }
 
   protected QuestionController() {
     // CGLib AOP needs a protected default constructor
     this.service = null;
-    this.tools = null;
   }
 
   public static String getQuestionReadUri(Question question) {
@@ -78,7 +75,7 @@ public class QuestionController {
       Question question = new Question()
           .title(questionData.getTitle())
           .content(questionData.getContent())
-          .author(tools.getAuthenticatedUser());
+          .author(SecurityTools.getAuthenticatedUser());
       if (!service.store(question)) {
         throw new QuestionStorageErrorException(question);
       }
@@ -149,7 +146,7 @@ public class QuestionController {
     mav.addObject(question);
 
     Boolean hasAnswered = false;
-    User user = tools.getAuthenticatedUser();
+    User user = SecurityTools.getAuthenticatedUser();
     if (user != null) {
       for (Answer answer : question.getAnswers()) {
         if (answer.getAuthor().equals(user)) {
@@ -179,7 +176,7 @@ public class QuestionController {
     if (null == question) {
       throw new NoSuchRequestHandlingMethodException("reviseQuestion", this.getClass());
     }
-    User user = tools.getAuthenticatedUser();
+    User user = SecurityTools.getAuthenticatedUser();
     if (null == user || !user.equals(question.getAuthor())) {
       throw new AccessDeniedException("Not the author of the question");
     }

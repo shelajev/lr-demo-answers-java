@@ -30,14 +30,12 @@ public class AnswerController {
   private final QuestionController questionController;
   private final QuestionService questionService;
   private final AnswerService answerService;
-  private final SecurityTools tools;
 
   @Autowired
-  public AnswerController(final QuestionController questionController, final QuestionService questionService, final AnswerService answerService, final SecurityTools tools) {
+  public AnswerController(final QuestionController questionController, final QuestionService questionService, final AnswerService answerService) {
     this.questionController = questionController;
     this.questionService = questionService;
     this.answerService = answerService;
-    this.tools = tools;
   }
 
   protected AnswerController() {
@@ -45,7 +43,6 @@ public class AnswerController {
     this.questionController = null;
     this.questionService = null;
     this.answerService = null;
-    this.tools = null;
   }
 
   /*
@@ -68,7 +65,7 @@ public class AnswerController {
       Answer answer = new Answer()
           .question(question)
           .content(answerData.getContent())
-          .author(tools.getAuthenticatedUser());
+          .author(SecurityTools.getAuthenticatedUser());
       if (!answerService.store(answer)) {
         throw new AnswerStorageErrorException(answer);
       }
@@ -89,7 +86,7 @@ public class AnswerController {
       throw new NoSuchRequestHandlingMethodException("acceptAnswer", this.getClass());
     }
 
-    User user = tools.getAuthenticatedUser();
+    User user = SecurityTools.getAuthenticatedUser();
     if (null == user || !user.equals(answer.getQuestion().getAuthor())) {
       throw new AccessDeniedException("Not the author of the question");
     }
@@ -112,7 +109,7 @@ public class AnswerController {
     if (null == answer) {
       throw new NoSuchRequestHandlingMethodException("reviseAnswer", this.getClass());
     }
-    User user = tools.getAuthenticatedUser();
+    User user = SecurityTools.getAuthenticatedUser();
     if (null == user || !user.equals(answer.getAuthor())) {
       throw new AccessDeniedException("Not the author of the answer");
     }
