@@ -2,6 +2,7 @@ package com.zeroturnaround.rebelanswers.mvc.taglib;
 
 import com.zeroturnaround.rebelanswers.domain.User;
 import com.zeroturnaround.rebelanswers.security.SecurityTools;
+import org.springframework.web.util.HtmlUtils;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
@@ -13,7 +14,7 @@ public class AuthenticatedUserNameTag extends TagSupport {
     try {
       User user = SecurityTools.getAuthenticatedUser();
       if (user != null) {
-        pageContext.getOut().print(user.getName());
+        pageContext.getOut().print(HtmlUtils.htmlEscape(user.getName()));
       }
     }
     catch (final IOException e) {
