@@ -108,8 +108,8 @@ public class DaoTools {
     return castResultList(query.getResultList());
   }
 
-  public <T> List<T> searchByAttribute(final Class<T> entityClass, final String attributeName, final Object attributeValue,
-                                       final String orderByAttributeName, final SortOrder sortOrder, final Integer offset, final Integer limit) {
+  public <T> List<T> searchByAttribute(final Class<T> entityClass, final String orderByAttributeName, final SortOrder sortOrder, final String attributeName, final Object attributeValue,
+                                       final Integer offset, final Integer limit) {
     if (null == entityClass) throw new IllegalArgumentException("entityClass can't be null");
     if (null == attributeName) throw new IllegalArgumentException("attributeName can't be null");
     if (null == attributeValue) throw new IllegalArgumentException("attributeValue can't be null");
