@@ -22,6 +22,4 @@
     </sec:authentication-provider>
   </sec:authentication-manager>
 
-  <bean id="securityTools" class="com.zeroturnaround.rebelanswers.security.SecurityTools"/>
-
 </beans>
