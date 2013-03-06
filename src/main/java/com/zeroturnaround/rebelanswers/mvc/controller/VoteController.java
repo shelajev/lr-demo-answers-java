@@ -126,7 +126,7 @@ public class VoteController {
   }
 
   private Map<String, Integer> jsonVoteResponse(int voteCount, int type) {
-    Map<String, Integer> result = new HashMap<>();
+    Map<String, Integer> result = new HashMap<String, Integer>();
     result.put("count", voteCount);
     result.put("type", type);
     return result;
