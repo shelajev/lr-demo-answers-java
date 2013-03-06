@@ -17,17 +17,14 @@ import java.util.List;
 public class QuestionDaoImpl implements QuestionDao {
 
   private final DaoTools daoTools;
-  private final SecurityTools securityTools;
   private final VoteDao voteDao;
   private final CommentDao commentDao;
 
-  public QuestionDaoImpl(final DaoTools daoTools, final SecurityTools securityTools, final VoteDao voteDao, final CommentDao commentDao) {
+  public QuestionDaoImpl(final DaoTools daoTools, final VoteDao voteDao, final CommentDao commentDao) {
     if (null == daoTools) throw new IllegalArgumentException("daoTools can't be null");
-    if (null == securityTools) throw new IllegalArgumentException("securityTools can't be null");
     if (null == voteDao) throw new IllegalArgumentException("voteDao can't be null");
     if (null == commentDao) throw new IllegalArgumentException("commentDao can't be null");
     this.daoTools = daoTools;
-    this.securityTools = securityTools;
     this.voteDao = voteDao;
     this.commentDao = commentDao;
   }
@@ -39,7 +36,7 @@ public class QuestionDaoImpl implements QuestionDao {
   public Question getFullQuestionById(Long id) {
     Question question = daoTools.findById(Question.class, id);
 
-    Vote question_vote = voteDao.findForUser(securityTools.getAuthenticatedUser(), question);
+    Vote question_vote = voteDao.findForUser(SecurityTools.getAuthenticatedUser(), question);
     if (question_vote != null) {
       question.setAutenticatedUserVote(question_vote.getType());
     }
@@ -48,7 +45,7 @@ public class QuestionDaoImpl implements QuestionDao {
 
     if (question.getAnswers() != null) {
       for (Answer answer : question.getAnswers()) {
-        Vote answer_vote = voteDao.findForUser(securityTools.getAuthenticatedUser(), answer);
+        Vote answer_vote = voteDao.findForUser(SecurityTools.getAuthenticatedUser(), answer);
         if (answer_vote != null) {
           answer.setAutenticatedUserVote(answer_vote.getType());
         }
