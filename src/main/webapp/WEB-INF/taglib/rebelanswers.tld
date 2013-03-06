@@ -55,4 +55,10 @@
     <function-signature>java.lang.String sanitizeForUrl(java.lang.String)</function-signature>
   </function>
 
+  <function>
+    <name>authenticatedUser</name>
+    <function-class>com.zeroturnaround.rebelanswers.security.SecurityTools</function-class>
+    <function-signature>com.zeroturnaround.rebelanswers.domain.User getAuthenticatedUser()</function-signature>
+  </function>
+
 </taglib>

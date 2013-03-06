@@ -40,7 +40,11 @@
               <ra:markdownToHtml text="${question.content}"/>
             </div>
             <div class="note">
-              Asked by <c:out value="${question.author.name}"/>&nbsp;
+              <spring:url var="questionProfileUrl" value="/profile/{id}/{name}/questions">
+                <spring:param name="id" value="${question.author.id}"/>
+                <spring:param name="name" value="${ra:sanitizeForUrl(question.author.name)}"/>
+              </spring:url>
+              Asked by <a href="${questionProfileUrl}"><c:out value="${question.author.name}"/></a>&nbsp;
               <ra:prettytime date="${question.created}"/>
             </div>
 
@@ -109,7 +113,11 @@
               </div>
 
               <div class="note">
-                Answered by <c:out value="${answer.author.name}"/>&nbsp;
+                <spring:url var="answerProfileUrl" value="/profile/{id}/{name}/questions">
+                  <spring:param name="id" value="${answer.author.id}"/>
+                  <spring:param name="name" value="${ra:sanitizeForUrl(answer.author.name)}"/>
+                </spring:url>
+                Answered by <a href="${questionProfileUrl}"><c:out value="${answer.author.name}"/></a>&nbsp;
                 <ra:prettytime date="${answer.created}"/>
               </div>
 

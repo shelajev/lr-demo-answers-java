@@ -21,25 +21,25 @@
           <spring:param name="name" value="${ra:sanitizeForUrl(user.name)}"/>
         </spring:url>
         <ul class="nav nav-tabs">
-          <li>
+          <li class="active">
             <a href="${profileUrl}/answers">Answers</a>
           </li>
-          <li class="active">
+          <li>
             <a href="${profileUrl}/questions">Questions</a>
           </li>
         </ul>
 
-        <c:forEach var="question" items="${questions}">
-          <div class="zebra row question">
+        <c:forEach var="answer" items="${answers}">
+          <div class="zebra row answer">
             <div class="span1 text-center">
-              <span class="label"><c:out value="${question.voteCount}"/></span>
+              <span class="label"><c:out value="${answer.voteCount}"/></span>
             </div>
             <div class="span11">
               <spring:url var="questionUrl" value="/question/{id}/{title}">
-                <spring:param name="id" value="${question.id}"/>
-                <spring:param name="title" value="${ra:sanitizeForUrl(question.title)}"/>
+                <spring:param name="id" value="${answer.question.id}"/>
+                <spring:param name="title" value="${ra:sanitizeForUrl(answer.question.title)}"/>
               </spring:url>
-              <a href="${questionUrl}"><c:out value="${question.title}"/></a>
+              <a href="${questionUrl}"><c:out value="${answer.question.title}"/></a>
             </div>
           </div>
         </c:forEach>

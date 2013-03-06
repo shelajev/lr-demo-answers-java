@@ -20,7 +20,11 @@
     </c:if>
 
     <div class="note">
-      Asked by <c:out value="${question.author.name}"/>&nbsp;
+      <spring:url var="questionProfileUrl" value="/profile/{id}/{name}/questions">
+        <spring:param name="id" value="${question.author.id}"/>
+        <spring:param name="name" value="${ra:sanitizeForUrl(question.author.name)}"/>
+      </spring:url>
+      Asked by <a href="${questionProfileUrl}"><c:out value="${question.author.name}"/></a>&nbsp;
       <ra:prettytime date="${question.created}"/>
     </div>
   </div>

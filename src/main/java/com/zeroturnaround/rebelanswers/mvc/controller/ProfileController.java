@@ -1,7 +1,6 @@
 package com.zeroturnaround.rebelanswers.mvc.controller;
 
 import com.zeroturnaround.rebelanswers.domain.User;
-import com.zeroturnaround.rebelanswers.security.StandardAuthorities;
 import com.zeroturnaround.rebelanswers.service.AnswerService;
 import com.zeroturnaround.rebelanswers.service.QuestionService;
 import com.zeroturnaround.rebelanswers.service.UserService;
@@ -12,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
-
-import javax.annotation.security.RolesAllowed;
 
 @Controller
 public class ProfileController {
@@ -36,7 +33,6 @@ public class ProfileController {
     this.answerService = null;
   }
 
-  @RolesAllowed({ StandardAuthorities.USER })
   @RequestMapping(value = "/profile/{userId}/{userName}/questions", method = RequestMethod.GET)
   public ModelAndView showProfileQuestions(@PathVariable final Long userId, @PathVariable final String userName) throws NoSuchRequestHandlingMethodException {
     final ModelAndView mav = new ModelAndView("profile/questions");
@@ -48,6 +44,21 @@ public class ProfileController {
 
     mav.addObject(user);
     mav.addObject("questions", questionService.getQuestionsForAuthor(user));
+
+    return mav;
+  }
+
+  @RequestMapping(value = "/profile/{userId}/{userName}/answers", method = RequestMethod.GET)
+  public ModelAndView showProfileAnswers(@PathVariable final Long userId, @PathVariable final String userName) throws NoSuchRequestHandlingMethodException {
+    final ModelAndView mav = new ModelAndView("profile/answers");
+
+    User user = userService.findById(userId);
+    if (null == user) {
+      throw new NoSuchRequestHandlingMethodException("showProfileAnswers", this.getClass());
+    }
+
+    mav.addObject(user);
+    mav.addObject("answers", answerService.getAnswersForAuthor(user));
 
     return mav;
   }
