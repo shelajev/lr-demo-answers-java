@@ -27,14 +27,12 @@ public class VoteController {
   private final VoteService voteService;
   private final QuestionService questionService;
   private final AnswerService answerService;
-  private final SecurityTools tools;
 
   @Autowired
-  public VoteController(VoteService voteService, final QuestionService questionService, AnswerService answerService, final SecurityTools tools) {
+  public VoteController(VoteService voteService, final QuestionService questionService, AnswerService answerService) {
     this.voteService = voteService;
     this.questionService = questionService;
     this.answerService = answerService;
-    this.tools = tools;
   }
 
   protected VoteController() {
@@ -42,7 +40,6 @@ public class VoteController {
     this.voteService = null;
     this.questionService = null;
     this.answerService = null;
-    this.tools = null;
   }
 
   @RolesAllowed({ StandardAuthorities.USER })
@@ -53,7 +50,7 @@ public class VoteController {
       throw new NoSuchRequestHandlingMethodException("voteUpQuestion", this.getClass());
     }
 
-    return performQuestionVote(question, tools.getAuthenticatedUser(), Vote.UP);
+    return performQuestionVote(question, SecurityTools.getAuthenticatedUser(), Vote.UP);
   }
 
   @RolesAllowed({ StandardAuthorities.USER })
@@ -64,7 +61,7 @@ public class VoteController {
       throw new NoSuchRequestHandlingMethodException("voteDownQuestion", this.getClass());
     }
 
-    return performQuestionVote(question, tools.getAuthenticatedUser(), Vote.DOWN);
+    return performQuestionVote(question, SecurityTools.getAuthenticatedUser(), Vote.DOWN);
   }
 
   private Map<String, Integer> performQuestionVote(Question question, User user, int type) {
@@ -80,7 +77,7 @@ public class VoteController {
       throw new NoSuchRequestHandlingMethodException("voteUpAnswer", this.getClass());
     }
 
-    return performAnswerVote(answer, tools.getAuthenticatedUser(), Vote.UP);
+    return performAnswerVote(answer, SecurityTools.getAuthenticatedUser(), Vote.UP);
   }
 
   @RolesAllowed({ StandardAuthorities.USER })
@@ -91,7 +88,7 @@ public class VoteController {
       throw new NoSuchRequestHandlingMethodException("voteDownAnswer", this.getClass());
     }
 
-    return performAnswerVote(answer, tools.getAuthenticatedUser(), Vote.DOWN);
+    return performAnswerVote(answer, SecurityTools.getAuthenticatedUser(), Vote.DOWN);
   }
 
   private Map<String, Integer> performAnswerVote(Answer answer, User user, int type) {
