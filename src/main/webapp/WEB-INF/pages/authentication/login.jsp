@@ -43,10 +43,14 @@
                 </div>
 
                 <div>
+                  <spring:url var="recoveryUrl" value="/passwordrecovery"/>
+                  <a href="${recoveryUrl}">I forgot my password</a>
+
                   <button type="submit" class="btn">Log me in!</button>
                 </div>
               </fieldset>
             </form>
+
           </div>
           <div class="span4">
             <form:form modelAttribute="registrationData" action="/signup" method="post">

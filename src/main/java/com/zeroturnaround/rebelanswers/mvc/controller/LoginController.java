@@ -2,10 +2,15 @@ package com.zeroturnaround.rebelanswers.mvc.controller;
 
 import com.zeroturnaround.rebelanswers.domain.User;
 import com.zeroturnaround.rebelanswers.mvc.exceptions.UserStorageErrorException;
+import com.zeroturnaround.rebelanswers.mvc.model.RecoveryData;
 import com.zeroturnaround.rebelanswers.mvc.model.RegistrationData;
 import com.zeroturnaround.rebelanswers.security.UserDetailsWrapper;
 import com.zeroturnaround.rebelanswers.service.UserService;
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,6 +28,8 @@ import org.springframework.social.oauth2.OAuth2Parameters;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -41,11 +48,13 @@ public class LoginController {
 
   private final UserService service;
   private final ConnectionFactoryRegistry connectionRepository;
+  private final MailSender mailSender;
 
   @Autowired
-  public LoginController(final UserService service, final ConnectionFactoryRegistry connectionRepository) {
+  public LoginController(final UserService service, final ConnectionFactoryRegistry connectionRepository, final MailSender mailSender) {
     this.service = service;
     this.connectionRepository = connectionRepository;
+    this.mailSender = mailSender;
   }
 
   /*
@@ -142,5 +151,59 @@ public class LoginController {
       loginUser(user);
     }
     return "redirect:/";
+  }
+
+  /*
+   * Password recovery
+   */
+
+  public ModelAndView getRecoveryModelAndView() {
+    return new ModelAndView("authentication/recovery");
+  }
+
+  @RequestMapping(value = "/passwordrecovery", method = RequestMethod.GET)
+  public ModelAndView recoverPassword() {
+    final ModelAndView mav = getRecoveryModelAndView();
+    mav.addObject(new RecoveryData());
+    return mav;
+  }
+
+  @RequestMapping(value = "/passwordrecovery", method = RequestMethod.POST)
+  public ModelAndView asked(@ModelAttribute @Valid final RecoveryData recoveryData, final BindingResult result) {
+    final ModelAndView mav = getRecoveryModelAndView();
+    if (result.hasErrors()) {
+      return mav;
+    }
+    User user = service.findByEmail(recoveryData.getEmail());
+    if (null == user) {
+      result.addError(new FieldError(RecoveryData.class.getSimpleName(), "email", recoveryData.getEmail(), false, new String[] { "Unknown.recovery.email" }, null, "Unknown email"));
+      return mav;
+    }
+    else {
+      String new_password = RandomStringUtils.random(10, true, true);
+
+      SimpleMailMessage msg = new SimpleMailMessage();
+      msg.setTo(user.getEmail());
+      msg.setReplyTo("noreply@zeroturnaround.com");
+      msg.setSubject("RebelAnswers password reset");
+      msg.setText(
+          "Dear " + user.getName() + ",\n\n"
+              + "Your new password for RebelAnswers is:\n"
+              + new_password);
+      try {
+        this.mailSender.send(msg);
+
+        user.setAndEncodePassword(new_password);
+        if (!service.store(user)) {
+          throw new UserStorageErrorException(user);
+        }
+
+        return new ModelAndView("authentication/passwordsent");
+      }
+      catch (MailException e) {
+        result.addError(new ObjectError(RecoveryData.class.getSimpleName(), e.getMessage()));
+        return mav;
+      }
+    }
   }
 }
