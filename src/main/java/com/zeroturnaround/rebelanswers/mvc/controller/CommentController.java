@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
 
 import javax.annotation.security.RolesAllowed;
+import java.util.Date;
 
 @Controller
 public class CommentController {
@@ -72,6 +73,7 @@ public class CommentController {
     if (!commentService.store(new_comment)) {
       throw new CommentStorageErrorException(new_comment);
     }
+    new_comment.setCreated(new Date());
 
     ModelAndView mav = new ModelAndView("comments/jsondisplay");
     mav.addObject(new_comment);
