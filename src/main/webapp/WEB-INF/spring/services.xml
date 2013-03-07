@@ -25,6 +25,7 @@
     <property name="locations">
       <list>
         <value>classpath:facebook.properties</value>
+        <value>classpath:facebook-dev.properties</value>
         <value>classpath:facebook-prod.properties</value>
       </list>
     </property>
