@@ -3,8 +3,5 @@ liquibase.properties
 target
 .DS_Store
 facebook-dev.properties
-facebook-prod.properties
 jdbc-dev.properties
-jdbc-prod.properties
 mail-dev.properties
-mail-prod.properties
