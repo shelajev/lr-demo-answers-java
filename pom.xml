@@ -5,7 +5,7 @@
   <groupId>lr-demo-answers</groupId>
   <artifactId>lr-demo-answers</artifactId>
   <packaging>war</packaging>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
   <name>ZeroTurnaround LiveRebel Demo Answers</name>
   <url>http://www.zeroturnaround.com</url>
 
