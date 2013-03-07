@@ -43,6 +43,13 @@
     </attribute>
   </tag>
 
+  <tag>
+    <description>Custom tag to transform HTML JSP output into text that can be used as a JSON string</description>
+    <name>htmlToJson</name>
+    <tag-class>com.zeroturnaround.rebelanswers.mvc.taglib.HtmlToJsonTag</tag-class>
+    <body-content>JSP</body-content>
+  </tag>
+
   <function>
     <name>sortStringArray</name>
     <function-class>com.zeroturnaround.rebelanswers.mvc.taglib.JspUtils</function-class>
