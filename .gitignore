@@ -3,3 +3,4 @@ facebook.properties
 .idea/workspace.xml
 target
 .DS_Store
+mail.properties
