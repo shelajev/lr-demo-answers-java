@@ -12,6 +12,8 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import static junit.framework.Assert.assertEquals;
+
 @RunWith(JUnit4.class)
 public class SiteTest {
 
@@ -32,5 +34,7 @@ public class SiteTest {
 
   @Test
   public void testIndex() {
+    driver.get("http://10.127.128.2/lr-demo-answers");
+    assertEquals(driver.getTitle(), "A wrong title");
   }
 }
