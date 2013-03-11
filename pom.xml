@@ -3,7 +3,7 @@
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>lr-demo-answers</groupId>
-  <artifactId>lr-demo-answers</artifactId>
+  <artifactId>lr-demo-answers-java</artifactId>
   <packaging>war</packaging>
   <version>3.0</version>
   <name>ZeroTurnaround LiveRebel Demo Answers</name>
