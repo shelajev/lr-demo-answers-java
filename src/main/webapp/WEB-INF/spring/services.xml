@@ -32,8 +32,8 @@
   <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
     <property name="locations">
       <list>
-        <value>classpath:facebook-dev.properties</value>
         <value>classpath:facebook.properties</value>
+        <value>classpath:facebook-dev.properties</value>
       </list>
     </property>
     <property name="ignoreUnresolvablePlaceholders" value="true"/>
