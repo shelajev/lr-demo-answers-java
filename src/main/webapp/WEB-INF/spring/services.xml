@@ -56,7 +56,6 @@
       <list>
         <value>classpath:mail.properties</value>
         <value>classpath:mail-dev.properties</value>
-        <value>classpath:mail-prod.properties</value>
       </list>
     </property>
     <property name="ignoreUnresolvablePlaceholders" value="true"/>
