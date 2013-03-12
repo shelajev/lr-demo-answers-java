@@ -54,8 +54,8 @@
   <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
     <property name="locations">
       <list>
-        <value>classpath:mail-dev.properties</value>
         <value>classpath:mail.properties</value>
+        <value>classpath:mail-dev.properties</value>
       </list>
     </property>
     <property name="ignoreUnresolvablePlaceholders" value="true"/>
