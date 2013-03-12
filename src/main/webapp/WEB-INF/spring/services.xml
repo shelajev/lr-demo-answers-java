@@ -26,7 +26,6 @@
       <list>
         <value>classpath:facebook.properties</value>
         <value>classpath:facebook-dev.properties</value>
-        <value>classpath:facebook-prod.properties</value>
       </list>
     </property>
     <property name="ignoreUnresolvablePlaceholders" value="true"/>
