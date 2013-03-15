@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/lr-demo-answers.iml" filepath="$PROJECT_DIR$/lr-demo-answers.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webapp/lr-demo-answers-java.iml" filepath="$PROJECT_DIR$/webapp/lr-demo-answers-java.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lr-demo-answers-parent.iml" filepath="$PROJECT_DIR$/lr-demo-answers-parent.iml" />
     </modules>
   </component>
 </project>
