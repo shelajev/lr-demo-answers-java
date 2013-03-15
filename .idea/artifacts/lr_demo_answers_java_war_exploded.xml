@@ -1,11 +1,11 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="lr-demo-answers:war exploded">
-    <output-path>$PROJECT_DIR$/target/lr-demo-answers</output-path>
+  <artifact type="exploded-war" name="lr-demo-answers-java:war exploded">
+    <output-path>$PROJECT_DIR$/webapp/target/lr-demo-answers-java-2.0</output-path>
     <root id="root">
-      <element id="javaee-facet-resources" facet="lr-demo-answers/web/Web" />
+      <element id="javaee-facet-resources" facet="lr-demo-answers-java/web/Web" />
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
-          <element id="module-output" name="lr-demo-answers" />
+          <element id="module-output" name="lr-demo-answers-java" />
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Maven: org.springframework:spring-context:3.2.1.RELEASE" />

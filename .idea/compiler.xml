@@ -22,12 +22,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="lr-demo-answers" />
-        <module name="lr-demo-qa-java" />
+        <module name="lr-demo-answers-java" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="lr-demo-answers" target="1.6" />
+      <module name="lr-demo-answers-java" target="1.6" />
+      <module name="lr-demo-answers-parent" target="1.6" />
     </bytecodeTargetLevel>
   </component>
 </project>
