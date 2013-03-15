@@ -1,0 +1,34 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.zeroturnaround</groupId>
+    <artifactId>lr-demo-answers-parent</artifactId>
+    <version>4.0</version>
+  </parent>
+  <artifactId>lr-demo-answers-integration</artifactId>
+  <packaging>jar</packaging>
+  <version>4.0</version>
+  <name>ZeroTurnaround LiveRebel Demo Answers Integration Tests</name>
+
+  <properties>
+    <junit.version>4.11</junit.version>
+    <selenium-java.version>2.31.0</selenium-java.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-java</artifactId>
+      <version>${selenium-java.version}</version>
+      <optional>true</optional>
+    </dependency>
+  </dependencies>
+</project>

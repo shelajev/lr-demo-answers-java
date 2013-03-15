@@ -34,7 +34,7 @@ public class SiteTest {
 
   @Test
   public void testIndex() {
-    driver.get("http://10.127.128.2/lr-demo-answers");
+    driver.get("http://10.127.128.2/lr-demo-answers-java");
     assertEquals(driver.getTitle(), "Rebel Answers - Questions");
   }
 }
