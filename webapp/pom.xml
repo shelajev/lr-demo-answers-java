@@ -242,7 +242,9 @@
           <artifactId>maven-war-plugin</artifactId>
           <configuration>
             <packagingExcludes>
-              WEB-INF/classes/*-dev.properties
+              WEB-INF/classes/*-dev.properties,
+              WEB-INF/lib/jboss-logging-*.jar,
+              WEB-INF/lib/commons-logging-*.jar
             </packagingExcludes>
           </configuration>
         </plugin>
