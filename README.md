@@ -1,5 +1,5 @@
 # Rebel Answers #
-Questions & answers web application written in Java (EE) to showcase various LiveRebel features.
+Questions & answers web application written in Java (EE) and Spring to showcase various LiveRebel features.
 
 * **Version 1.0**
  * Asking questions
@@ -26,17 +26,17 @@ Each version is represented with a separate branch, where `master` refers to `4.
      $ git clone git://github.com/zeroturnaround/lr-demo-answers-java.git
      ```
 
-2. Build per version WAR archives (you can also specify an output directory as argument; by default, it will place the WARs in parent directory)
+2. Build per version WAR archives (you can also specify an output directory as argument; by default, it will place the WARs in the parent directory)
  
     ```bash
      $ ./build-versions.sh
      ```
-3. Upload `lr-demo-answers-java-<version>.war` archives from output directory to LiveRebel.
+3. Upload all `lr-demo-answers-java-<version>.war` archives from the output directory to LiveRebel.
 
 We have prepared a Vagrant box for Rebel Answers to make trying it out quick and easy. Follow the instructions at https://github.com/gbevin/lr-demo-provisioning (scroll down for Java environment instructions).
 
 ## Directory Structure ##
-It is a Maven multi-module build, with integration tests in `integration` project and web application in `webapp` project.
+The project is structured as a Maven multi-module build. Integration tests are in the `integration` module and the web application itself can be found in the `webapp` mode.
 
 ```bash
 integration/                               // integration tests (executed automatically after deployment)
@@ -52,7 +52,7 @@ webapp/                                    // the actual web application
         mail.properties                    // non-LiveRebel-aware properties file for SMTP connection
         liverebel.xml                      // LiveRebel metadata file with application name and version
                                            //   (can also be generated with Maven plugin or specified when uploading package to Command Center)
-        rebel.xml                          // JRebel configutation file (not needed for LiveRebel, but if you use JRebel in development)
+        rebel.xml                          // JRebel configuration file (not needed for LiveRebel, but handy when you use JRebel in development)
       webapp/
         WEB-INF/
           liverebel/
@@ -70,11 +70,13 @@ webapp/                                    // the actual web application
 ## Development ##
 Rebel Answers requires `Spring MVC 3.2.x`, `MySQL` and your favourite Java application server (e.g. Tomcat). Applying database migrations in development environment needs `liquibase` and `MySQL JDBC driver`.
 
-1. Configure application (reference in `webapp/src/main/resources/`)
-2. Configure liquibase (reference in `liquibase.properties.sample` TODO
-3. Update database `$ liquibase update` TODO
-4. Build WAR and deploy it to application server (e.g. Tomcat)
-4.1 Variation: use JRebel for development
-5. Access the application by `http://localhost:8080/lr-demo-answers-java`
+1. Configure application (examples in `webapp/src/main/resources/`)
+2. Create the database called `qa` in your MySQL server
+3. Configure liquibase by creating a file called `liquibase.properties` in the project's root directory (example in `liquibase.properties.sample`)
+4. Update the database by running the schema migrations in the project's root directory with `$ liquibase update`
+5. Build WAR and deploy it to application server (e.g. Tomcat)
+6.1 Variation: use JRebel for development
+6.2 Other variation: open the IntelliJ IDEA project files to run the application directly in an IDE
+7. Access the application through `http://localhost:8080/lr-demo-answers-java`
 
 Contributions are more than welcome!
