@@ -1,0 +1,5 @@
+driver: com.mysql.jdbc.Driver
+classpath: connectors/mysql-connector-java-5.1.23-bin.jar
+url: jdbc:mysql://localhost/qa
+username: root
+changeLogFile: webapp/src/main/webapp/WEB-INF/liverebel/db/master.xml
