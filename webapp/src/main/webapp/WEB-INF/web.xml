@@ -44,4 +44,8 @@
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
+
+  <listener>
+    <listener-class>com.zeroturnaround.rebelanswers.mvc.tools.DriverCleanup</listener-class>
+  </listener>
 </web-app>
