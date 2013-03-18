@@ -1,5 +1,7 @@
 package com.zeroturnaround.rebelanswers.mvc.tools;
 
+import com.mysql.jdbc.AbandonedConnectionCleanupThread;
+
 import javax.servlet.ServletContextEvent;
 import java.sql.Driver;
 import java.sql.DriverManager;
@@ -10,6 +12,12 @@ public class DriverCleanup implements javax.servlet.ServletContextListener {
 
   // On application shutdown
   public void contextDestroyed(ServletContextEvent event) {
+    try {
+      AbandonedConnectionCleanupThread.shutdown();
+    }
+    catch (InterruptedException e) {
+    }
+
     Enumeration<Driver> drivers = DriverManager.getDrivers();
     for (; drivers.hasMoreElements(); ) {
       Driver driver = drivers.nextElement();
