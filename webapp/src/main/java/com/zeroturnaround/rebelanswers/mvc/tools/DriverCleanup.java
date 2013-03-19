@@ -19,7 +19,7 @@ public class DriverCleanup implements javax.servlet.ServletContextListener {
     }
 
     Enumeration<Driver> drivers = DriverManager.getDrivers();
-    for (; drivers.hasMoreElements(); ) {
+    while (drivers.hasMoreElements()) {
       Driver driver = drivers.nextElement();
       // We search for driver that was loaded by this web application
       if (driver.getClass().getClassLoader() == this.getClass().getClassLoader()) {
