@@ -71,7 +71,7 @@ webapp/                                    // the actual web application
 Rebel Answers requires `Spring MVC 3.2.x`, `MySQL` and your favourite Java application server (e.g. Tomcat). Applying database migrations in development environment needs `liquibase` and `MySQL JDBC driver`.
 
 1. Configure application (examples in `webapp/src/main/resources/`)
-2. Create the database called `qa` in your MySQL server
+2. Create the database called `answers` in your MySQL server
 3. Configure liquibase by creating a file called `liquibase.properties` in the project's root directory (example in `liquibase.properties.sample`)
 4. Update the database by running the schema migrations in the project's root directory with `$ liquibase update`
 5. Deployment options:
