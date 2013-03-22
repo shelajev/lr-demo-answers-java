@@ -31,7 +31,15 @@ Each version is represented with a separate branch, where `master` refers to `4.
     ```bash
      $ ./build-versions.sh
      ```
-3. Upload all `lr-demo-answers-java-<version>.war` archives from the output directory to LiveRebel.
+3. Make sure to include the required logging jars ``commons-logging-1.1.1.jar`` and ``jboss-logging-3.1.0.GA.jar`` into a global library directory of your application server (``lib`` directory for Tomcat). We can't package them with the web application since that would create permgen memory leaks.
+
+4. You might have to increase the heap and permgen memory settings for your Java runtime and web application server. For Tomcat you could do this for instance:
+
+    ```bash
+    export CATALINA_OPTS="-Xmx512Mb -XX:MaxPermSize=128m"
+    ```
+
+5. Upload all `lr-demo-answers-java-<version>.war` archives from the output directory to LiveRebel.
 
 We have prepared a Vagrant box for Rebel Answers to make trying it out quick and easy. Follow the instructions at https://github.com/gbevin/lr-demo-provisioning (scroll down for Java environment instructions).
 
@@ -75,7 +83,7 @@ Rebel Answers requires `Spring MVC 3.2.x`, `MySQL` and your favourite Java appli
 3. Configure liquibase by creating a file called `liquibase.properties` in the project's root directory (example in `liquibase.properties.sample`)
 4. Update the database by running the schema migrations in the project's root directory with `$ liquibase update`
 5. Deployment options:
-  1. Build a WAR and deploy it to an application server (e.g. Tomcat), you will have to put ``commons-logging-1.1.1.jar`` and ``jboss-logging-3.1.0.GA.jar`` into a global lib directory of the application server, they can't be packaged with the web application
+  1. Build a WAR and deploy it to an application server (e.g. Tomcat)
   2. Variation: use JRebel for development
   3. Other variation: open the IntelliJ IDEA project files to run the application directly in an IDE
 6. Access the application through `http://localhost:8080/lr-demo-answers-java`
