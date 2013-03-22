@@ -75,7 +75,7 @@ Rebel Answers requires `Spring MVC 3.2.x`, `MySQL` and your favourite Java appli
 3. Configure liquibase by creating a file called `liquibase.properties` in the project's root directory (example in `liquibase.properties.sample`)
 4. Update the database by running the schema migrations in the project's root directory with `$ liquibase update`
 5. Deployment options:
-  1. Build a WAR and deploy it to an application server (e.g. Tomcat), you will have to put commons-logging-1.1.1.jar and jboss-logging-3.1.0.GA.jar into a global lib directory of the application server, they can't be packaged with the web application
+  1. Build a WAR and deploy it to an application server (e.g. Tomcat), you will have to put ``commons-logging-1.1.1.jar`` and ``jboss-logging-3.1.0.GA.jar`` into a global lib directory of the application server, they can't be packaged with the web application
   2. Variation: use JRebel for development
   3. Other variation: open the IntelliJ IDEA project files to run the application directly in an IDE
 6. Access the application through `http://localhost:8080/lr-demo-answers-java`
