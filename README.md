@@ -31,15 +31,13 @@ Each version is represented with a separate branch, where `master` refers to `4.
     ```bash
      $ ./build-versions.sh
      ```
-3. Make sure to include the required logging jars ``commons-logging-1.1.1.jar`` and ``jboss-logging-3.1.0.GA.jar`` into a global library directory of your application server (``lib`` directory for Tomcat). We can't package them with the web application since that would create permgen memory leaks.
-
-4. You might have to increase the heap and permgen memory settings for your Java runtime and web application server. For Tomcat you could do this for instance:
+3. You might have to increase the heap and permgen memory settings for your Java runtime and web application server. For Tomcat you could do this for instance:
 
     ```bash
     export CATALINA_OPTS="-Xmx512Mb -XX:MaxPermSize=128m"
     ```
 
-5. Upload all `lr-demo-answers-java-<version>.war` archives from the output directory to LiveRebel.
+4. Upload all `lr-demo-answers-java-<version>.war` archives from the output directory to LiveRebel.
 
 We have prepared a Vagrant box for Rebel Answers to make trying it out quick and easy. Follow the instructions at https://github.com/gbevin/lr-demo-provisioning (scroll down for Java environment instructions).
 
