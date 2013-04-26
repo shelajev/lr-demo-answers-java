@@ -3,7 +3,7 @@
 <div class="navbar">
   <div class="navbar-inner">
     <spring:url var="welcomeUrl" value="/"/>
-    <a class="brand" href="${welcomeUrl}">Rebel Answers</a>
+    <a class="brand" href="${welcomeUrl}">Rebel Answers <ra:applicationVersion/></a>
 
     <spring:url var="searchUrl" value="/search"/>
     <form action="${searchUrl}" method="GET" class="navbar-search pull-left"><input name="q" type="content" class="search-query span6" placeholder="Search"/></form>

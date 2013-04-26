@@ -20,6 +20,15 @@
   </tag>
 
   <tag>
+    <description>
+      Returns the version of current application.
+    </description>
+    <name>applicationVersion</name>
+    <tag-class>com.zeroturnaround.rebelanswers.mvc.taglib.ApplicationVersionTag</tag-class>
+    <body-content>empty</body-content>
+  </tag>
+
+  <tag>
     <description>Custom tag to pretty print java.util.Date objects using Prettytime</description>
     <name>prettytime</name>
     <tag-class>com.zeroturnaround.rebelanswers.mvc.taglib.PrettyTimeTag</tag-class>
